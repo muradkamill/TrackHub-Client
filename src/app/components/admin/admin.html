@@ -1,0 +1,80 @@
+<div class="admin-panel-container p-8 bg-gray-100 font-sans">
+  <h1 class="text-3xl font-bold text-center mb-8">Admin Panel</h1>
+
+  <!-- Courier Applications Section -->
+  <section class="bg-white rounded-lg p-6 shadow-md">
+    <h2 class="text-xl font-semibold mb-4">Pending Courier Applications</h2>
+
+    <table class="w-full border-collapse">
+      <thead>
+        <tr class="bg-gray-200 text-left">
+          <th class="p-3">Image</th>
+          <th class="p-3">FIN</th>
+          <th class="p-3">First Name</th>
+          <th class="p-3">Last Name</th>
+          <th class="p-3">Vehicle Type</th>
+          <th class="p-3">CV</th>
+          <th class="p-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        @for (pendingCourierApplication of pendingCourierApplications; track $index) {
+        <tr class="border-t border-gray-300">
+          <td class="p-3">
+            @if (pendingCourierApplication.ImageUrl) {
+            <img [src]="'https://localhost:7115'+pendingCourierApplication.ImageUrl" alt="Courier Photo"
+              class="rounded-full w-16 h-16 object-cover">
+            }
+            @else {
+            <img src="defaultuser.png" class="rounded-full w-16 h-16" alt="" />
+            }
+          </td>
+
+          <td class="p-3">{{pendingCourierApplication.Fin}}</td>
+          <td class="p-3">{{pendingCourierApplication.Name}}</td>
+          <td class="p-3">{{pendingCourierApplication.SurName}}</td>
+          <td class="p-3">{{pendingCourierApplication.VehicleType}}</td>
+          <td class="p-3">
+            <a [href]="'https://localhost:7115'+pendingCourierApplication.CvUrl" target="_blank"
+              class="text-blue-600 hover:underline cursor-pointer">View CV</a>
+          </td>
+          <td class="p-3 flex justify-between">
+            <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded mr-2"
+              (click)="approvePendingApplication(pendingCourierApplication.Fin)">Accept</button>
+            <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded"
+              (click)="rejectPendingApplication(pendingCourierApplication.Fin)">Reject</button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+
+  <section class="mt-10 bg-white rounded-lg p-6 shadow-md">
+    <h2 class="text-xl font-semibold mb-4">User Suggestions</h2>
+
+    <table class="w-full border-collapse">
+      <thead>
+        <tr class="bg-gray-200 text-left">
+          <th class="p-3">Person FIN</th>
+          <th class="p-3">Name</th>
+          <th class="p-3">Surname</th>
+          <th class="p-3">Suggestion</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (suggestion of suggestions; track $index) {
+        <tr class="border-t border-gray-300">
+          <td class="p-3">{{suggestion.PersonFin}}</td>
+          <td class="p-3">{{suggestion.Name}}</td>
+          <td class="p-3">{{suggestion.SurName}}</td>
+          <td class="p-3">{{suggestion.Suggestion}}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+</div>

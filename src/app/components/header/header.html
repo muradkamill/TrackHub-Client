@@ -1,0 +1,227 @@
+<div class="flex flex-row h-18 justify-around items-center bg-stone-700 text-white">
+  <div>
+    <img (click)="toHome()" class="w-[4.5rem] h-[4.5rem]" src="Trackhub-removebg-preview.png" alt="Logo" />
+  </div>
+  <div class="flex items-center gap-2">
+    <input type="text" id="search" name="search" #search placeholder="Search"
+      class="bg-stone-700 border border-stone-500 rounded-lg px-3 py-1 text-white focus:outline-none focus:ring-amber-600" />
+    <button class="border border-stone-500 h-8 w-8 flex items-center justify-center rounded bg-amber-600 hover:bg-amber-700 text-white"
+      (click)="onSearch(search.value)">
+      <img src="search.png" alt="Search" class="w-4 h-4" />
+    </button>
+  </div>
+  <div class="relative" (mouseenter)="onHover()" (mouseleave)="outHover()">
+    @if (isAuth) {
+    <button class="flex bg-amber-600 hover:bg-amber-700 text-white rounded px-2 py-1" (mouseenter)="onMyAccount()" (mouseleave)="outMyAccount()">
+      @if (profilePhotoUrl) {
+      <img [src]="'https://localhost:7115'+profilePhotoUrl" class="w-7 h-7 rounded-full mr-1" alt="" />
+      }
+      @else {
+      <img src="defaultuser.png" class="w-5 h-5" alt="" />
+      }
+      <div class="ml-1">My Account</div>
+    </button>
+    @if (showMyAccountModal) {
+    <div class="fixed flex items-center justify-center z-50" (mouseenter)="onMyAccount()" (mouseleave)="outMyAccount()">
+      <div class="w-full max-w-lg bg-stone-700 border border-stone-500 rounded-lg shadow-lg p-6 relative text-white" (click)="$event.stopPropagation()">
+        <button class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 mt-2 w-full rounded"
+          (click)="onUserDashboard()">
+          User Dashboard (Profile)
+        </button>
+        @if (isCourier) {
+        <br />
+        <button class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 mt-2 w-full rounded"
+          (click)="onCourierDashboard()">
+          Courier Dashboard
+        </button>
+        <br />
+        }
+        <button class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 mt-2 w-full rounded" (click)="Logout()">
+          Logout
+        </button>
+      </div>
+    </div>
+    }
+    }
+    @else {
+    <button class="bg-amber-600 hover:bg-amber-700 text-white rounded px-3 py-1">Login</button>
+    @if (hoverEl) {
+    <div class="bg-amber-600 border border-stone-500 rounded p-2 w-28 flex flex-col z-10 absolute -left-5 text-white">
+      <button class="border border-stone-500 rounded py-1 px-2 mb-1 hover:bg-stone-600" (click)="openSignUpModal()">
+        Sign Up
+      </button>
+      <button class="border border-stone-500 rounded py-1 px-2 hover:bg-stone-600" (click)="openLoginModal()">
+        Log in
+      </button>
+    </div>
+    }
+    }
+  </div>
+  <div>
+    <button class="relative flex items-center gap-1 bg-amber-600 hover:bg-amber-700 text-white rounded px-2 py-1" (click)="onClickCart()">
+      <div class="relative">
+        <img class="w-5 h-5" src="/cart.png" alt="Cart" />
+      </div>
+      <div>Cart</div>
+      @if (activeCartsQuantity > 0) {
+      <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5 ms-2 py-0.5">
+        {{ activeCartsQuantity }}
+      </span>
+      }
+    </button>
+  </div>
+  @if (showLoginModal || showSignUpModal) {
+  <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50" (click)="closeModal()">
+    <div class="bg-stone-700 border border-stone-500 text-white p-6 rounded-lg shadow-lg w-96 relative -mt-20"
+      (click)="$event.stopPropagation()">
+      <button class="absolute top-2 right-2 text-gray-400 hover:text-white" (click)="closeModal()">
+        ✕
+      </button>
+
+      <div class="flex justify-center gap-4 mb-6">
+        <button class="px-4 py-2 rounded font-semibold bg-amber-600 hover:bg-amber-700 text-white" [class.bg-amber-600]="showLoginModal"
+          [class.text-white]="showLoginModal" (click)="openLoginModal()">
+          Login
+        </button>
+        <button class="px-4 py-2 rounded font-semibold bg-amber-600 hover:bg-amber-700 text-white" [class.bg-amber-600]="showSignUpModal"
+          [class.text-white]="showSignUpModal" (click)="openSignUpModal()">
+          Sign Up
+        </button>
+      </div>
+
+      @if (showLoginModal) {
+      <label class="block mb-2 text-sm text-gray-200">FIN</label>
+      <input type="text" placeholder="FIN"
+        class="w-full mb-1 p-2 rounded bg-stone-700 border border-stone-500 text-white focus:outline-none focus:ring-amber-600" #signinFin />
+      @if (isFinWrong) {
+      <div class="bg-stone-600/opacity-20 text-red-400 text-xs mt-1 mb-3 rounded px-2 py-1">Incorrect FIN. Please check and try again.</div>
+      }
+
+      <label class="block mb-2 text-sm text-gray-200">Password</label>
+      <input type="password" placeholder="Password"
+        class="w-full mb-6 p-2 rounded bg-stone-700 border border-stone-500 text-white focus:outline-none focus:ring-amber-600" #signinPassword />
+      @if (isPasswordWrong) {
+      <div class="bg-stone-600/opacity-20 text-red-400 text-xs mt-1 rounded px-2 py-1">Incorrect password. Please try again.</div>
+      }
+
+
+      <button type="submit" class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 mt-4 w-full rounded"
+        (click)="onSignIn(signinFin.value,signinPassword.value)">
+        LOGIN
+      </button>
+      }
+      @if (showSignUpModal) {
+      <form [formGroup]="signUpFormGroup" (submit)="onSignUp()">
+        <div class="space-y-4">
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-200">FIN</label>
+            <input type="text" placeholder="FIN" formControlName="fin"
+              class="w-full p-2 rounded bg-stone-700 border border-stone-500 text-white focus:outline-none focus:ring-amber-600" />
+            @if (signUpFormGroup.get('fin')?.touched && signUpFormGroup.get('fin')?.invalid) {
+            <div class="bg-stone-600/opacity-20 text-red-400 text-xs mt-1 rounded px-2 py-1">
+              @if (signUpFormGroup.get('fin')?.errors?.['required']) {
+              <div>FIN is required.</div>
+              }
+              @if (signUpFormGroup.get('fin')?.errors?.['minlength']) {
+              <div>FIN must be 7 characters.</div>
+              }
+              @if (signUpFormGroup.get('fin')?.errors?.['maxlength']) {
+              <div>FIN cannot exceed 7 characters.</div>
+              }
+            </div>
+            }
+          </div>
+
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-200">Password</label>
+            <input type="password" placeholder="Password" formControlName="password"
+              class="w-full p-2 rounded bg-stone-700 border border-stone-500 text-white focus:outline-none focus:ring-amber-600" />
+            @if (signUpFormGroup.get('password')?.touched && signUpFormGroup.get('password')?.invalid) {
+            <div class="bg-stone-600/opacity-20 text-red-400 text-xs mt-1 rounded px-2 py-1">
+              @if (signUpFormGroup.get('password')?.errors?.['required']) {
+              <div>Password is required.</div>
+              }
+              @if (signUpFormGroup.get('password')?.errors?.['minlength']) {
+              <div>Password must be at least 8 characters.</div>
+              }
+            </div>
+            }
+          </div>
+
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-200">Name</label>
+            <input type="text" placeholder="Name" formControlName="name"
+              class="w-full p-2 rounded bg-stone-700 border border-stone-500 text-white focus:outline-none focus:ring-amber-600" />
+            @if (signUpFormGroup.get('name')?.touched && signUpFormGroup.get('name')?.invalid) {
+            <div class="bg-stone-600/opacity-20 text-red-400 text-xs mt-1 rounded px-2 py-1">
+              @if (signUpFormGroup.get('name')?.errors?.['required']) {
+              <div>Name is required.</div>
+              }
+              @if (signUpFormGroup.get('name')?.errors?.['minlength']) {
+              <div>Name must be at least 3 characters.</div>
+              }
+              @if (signUpFormGroup.get('name')?.errors?.['maxlength']) {
+              <div>Name cannot exceed 15 characters.</div>
+              }
+            </div>
+            }
+          </div>
+
+
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-200">Email</label>
+            <input type="email" placeholder="Email" formControlName="mail"
+              class="w-full p-2 rounded bg-stone-700 border border-stone-500 text-white focus:outline-none focus:ring-amber-600" />
+            @if (signUpFormGroup.get('mail')?.touched && signUpFormGroup.get('mail')?.invalid) {
+            <div class="bg-stone-600/opacity-20 text-red-400 text-xs mt-1 rounded px-2 py-1">
+              @if (signUpFormGroup.get('mail')?.errors?.['required']) {
+              <div>Email is required.</div>
+              }
+              @if (signUpFormGroup.get('mail')?.errors?.['email']) {
+              <div>Email must be valid.</div>
+              }
+            </div>
+            }
+          </div>
+
+
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-200">Surname</label>
+            <input type="text" placeholder="Surname" formControlName="surName"
+              class="w-full p-2 rounded bg-stone-700 border border-stone-500 text-white focus:outline-none focus:ring-amber-600" />
+            @if (signUpFormGroup.get('surName')?.touched && signUpFormGroup.get('surName')?.invalid) {
+            <div class="bg-stone-600/opacity-20 text-red-400 text-xs mt-1 rounded px-2 py-1">
+              @if (signUpFormGroup.get('surName')?.errors?.['required']) {
+              <div>Surname is required.</div>
+              }
+              @if (signUpFormGroup.get('surName')?.errors?.['minlength']) {
+              <div>Surname must be at least 3 characters.</div>
+              }
+              @if (signUpFormGroup.get('surName')?.errors?.['maxlength']) {
+              <div>Surname cannot exceed 15 characters.</div>
+              }
+            </div>
+            }
+          </div>
+
+
+          <div class="text-end text-sm font-thin text-gray-200">
+            Already have an account?
+            <button type="button" (click)="openLoginModal()" class="underline text-amber-500 hover:text-amber-600">
+              Sign in
+            </button>
+          </div>
+
+          <button type="submit"
+            class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 mt-2 w-full rounded transition">
+            SIGN UP
+          </button>
+
+          <div class="mt-2 text-center text-sm text-green-600 bg-green-600/10 rounded px-2 py-1">{{ responseSignUp }}</div>
+        </div>
+      </form>
+      }
+    </div>
+  </div>
+  }
+</div>

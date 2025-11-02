@@ -1,0 +1,113 @@
+@if (carts?.length > 0) {
+<div class="grid lg:grid-cols-[4fr_1fr] grid-cols-1 gap-4 p-4 bg-stone-700">
+  <div class="flex flex-col gap-4">
+    @for (cart of carts; track $index) {
+    @if (cart.Quantity > 0) {
+    <div class="bg-stone-700 grid grid-cols-[48px_1fr] border rounded-xl shadow-sm overflow-hidden">
+      <div class="flex justify-center items-center p-2">
+        <input type="checkbox" class="h-5 w-5 accent-amber-600" [checked]="cart.IsSelected"
+          (change)="onChange(cart.Id)" />
+      </div>
+
+      <div class="p-3 flex flex-col gap-3 text-white">
+        <div class="text-sm font-medium">
+          <span class="text-white">Seller:</span>
+          <span class="text-white">{{ cart.ProductOwnerName }} {{ cart.ProductOwnerSurName }}</span>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="w-full max-w-xs h-[20rem] mx-auto">
+            <img [src]="'https://localhost:7115' + cart.ImageUrls[0]"
+              class="w-full h-64 sm:h-72 md:h-80 lg:h-80 object-cover rounded-lg bg-stone-700" alt="..." />
+          </div>
+
+          <div class="flex flex-col justify-between flex-1">
+            <div class="flex justify-between">
+              <div>
+                <div class="text font-semibold cursor-pointer" (click)="onProduct(cart.ProductId)">
+                  {{ cart.ProductName }}
+                </div>
+                <div class="text-sm text-gray-200 mt-1 line-clamp-3">
+                  {{ cart.Description }}
+                </div>
+              </div>
+              <button class="h-7 w-7 flex-shrink-0 flex items-center justify-center hover:bg-amber-100 rounded"
+                (click)="onDelete(cart.ProductName)">
+                <img class="h-6 w-6" src="/bin.png" alt="" />
+              </button>
+            </div>
+
+            <div class="mt-4 flex flex-col md:flex-row sm:items-center sm:justify-between gap-2">
+              <div class="w-full sm:w-32 h-10 border rounded-lg flex justify-between items-center text-lg px-3">
+                <button class="hover:text-amber-600" (click)="minusNumber(cart.Quantity, cart.Id)">-</button>
+                <div>{{ cart.Quantity }}</div>
+                <button class="hover:text-amber-600"
+                  (click)="plusNumber(cart.Quantity, cart.StockQuantity, cart.Id)">+</button>
+              </div>
+              <div class="text-lg font-semibold text-amber-600 text-right sm:text-left">
+                {{ cart.Price }} AZN
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+    }
+  </div>
+  <div class="border rounded-xl bg-stone-700 shadow-sm h-fit p-5 flex flex-col gap-4 sticky top-10">
+    <div class="flex flex-col gap-2 text-lg">
+      <div class="flex justify-between">
+        <span class="text-white">Total Price:</span>
+        <span class="text-white">{{ price }}</span>
+      </div>
+    </div>
+    <button class="bg-amber-600 text-white py-2 rounded-lg hover:bg-amber-700 transition mt-4"
+      (click)="confirmOrder()">
+      Confirm Order
+    </button>
+  </div>
+</div>
+} @else {
+<div class="flex flex-col items-center justify-center text-center py-20 bg-stone-700">
+  <img src="emptycart.png" alt="Empty Cart" class="w-40 h-40 mb-6 opacity-80" />
+  <h2 class="text-2xl font-semibold text-gray-200 mb-2">Your cart is empty</h2>
+  <p class="text-gray-300 mb-6">Looks like you haven’t added anything yet.</p>
+  <button class="bg-amber-600 text-white px-6 py-2 rounded-lg hover:bg-amber-700 transition" routerLink="">
+    🛍️ Start Shopping
+  </button>
+</div>
+}
+@if (openPayment) {
+<div class="flex flex-col items-center p-6 min-h-screen fixed inset-0 justify-center z-50 bg-black bg-opacity-50"
+  (click)="closePayment()">
+  <div class="w-full max-w-2xl bg-stone-500 rounded-lg shadow-lg p-6 space-y-6 relative" (click)="$event.stopPropagation()">
+    <button (click)="closePayment()"
+      class="absolute top-3 right-3 text-gray-300 hover:text-white text-2xl">&times;</button>
+    <h2 class="text-2xl font-bold text-white">Select Location</h2>
+    <div id="map" class="w-full h-[400px] border rounded-lg shadow-md border-stone-500"></div>
+
+
+    <div class="flex flex-col items-center gap-5">
+      <div class="flex flex-col items-start space-y-2">
+        <h2 class="text-lg font-semibold text-white">Vehicle Type</h2>
+        <select id="vehicle" [(ngModel)]="selectedVehicle"
+          class="border p-2 rounded w-full md:w-64 focus:ring-2 focus:ring-amber-600 hover:border-amber-600 transition bg-stone-700 border-stone-500 text-white">
+          <option value="None">None</option>
+          <option value="Bicycle">Bicycle</option>
+          <option value="Motorcycle">Motorcycle</option>
+          <option value="Car">Car</option>
+          <option value="Van">Van</option>
+          <option value="Truck">Truck</option>
+        </select>
+      </div>
+
+      <button
+        class="w-full md:w-64 py-2 px-4 bg-amber-600 text-white font-semibold rounded-lg shadow-md hover:bg-amber-700 transition"
+        (click)="createOrder()">
+        Proceed to Payment
+      </button>
+    </div>
+  </div>
+</div>
+}

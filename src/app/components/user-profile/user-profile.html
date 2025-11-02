@@ -1,0 +1,452 @@
+<div class="p-8 space-y-10 bg-gradient-to-br from-stone-800 to-stone-700 min-h-screen">
+  <div
+    class="flex flex-col md:flex-row items-center gap-6 border rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div class="relative">
+      @if (person?.ImageUrl) {
+      <img [src]="'https://localhost:7115'+person.ImageUrl" alt="Profile Photo"
+        class="w-32 h-32 rounded-full object-cover border-2 border-stone-500">
+      }
+      @else {
+      <img src="defaultuser.png" alt="Profile Photo"
+        class="w-32 h-32 rounded-full object-cover border-2 border-stone-500">
+      }
+      <input type="file" id="profileImageInput" class="hidden" accept="image/*"
+        (change)="onChangeProfilePhoto($event)" />
+
+      <label for="profileImageInput"
+        class="absolute bottom-0 right-0 bg-amber-600 hover:bg-amber-700 text-white rounded-full p-2 cursor-pointer">
+        ✎
+      </label>
+
+    </div>
+    <div class="flex-1 text-center md:text-left space-y-2">
+      <h3 class="text-xl font-semibold text-white">{{person?.Name}} {{person?.SurName}}</h3>
+      <p class="text-gray-100">{{person?.Mail}}</p>
+      <p class="text-2xl font-bold text-white">{{balance}}</p>
+    </div>
+    <div>
+
+      @if(!isChangePassword) {
+      <button class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 px-4 rounded-lg"
+        (click)="onChangePassword()">
+        Change Password
+      </button>
+      }
+
+    </div>
+  </div>
+
+
+
+
+  @if (courierApplication === "Pending") {
+  <div class="border rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow duration-300">
+    <p class="text-amber-600 font-bold text-lg">
+      🕒 Your courier application is under review
+    </p>
+  </div>
+
+
+  }
+  @if (courierApplication === 'Rejected') {
+  <div class="border rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow duration-300">
+    <p class="text-red-600 font-bold text-lg">
+      ❌ Your courier application was rejected
+    </p>
+  </div>
+  }
+
+  @if(!courierApplication) {
+  <div class="border rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow duration-300">
+    <h3 class="text-xl font-semibold mb-2 text-white">Courier Application</h3>
+    <p class="text-gray-100">You have not applied yet.</p>
+    <button class="mt-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 px-4 rounded-lg"
+      (click)="onCourierApplication()">
+      Apply as Courier
+    </button>
+  </div>
+  }
+  @if (products?.length > 0) {
+  <div>
+    <h3 class="text-xl font-semibold mb-5 text-white">My Products</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (product of products; track $index) {
+      <div
+        class="bg-gradient-to-br from-stone-800 to-stone-700 border rounded-xl p-5 shadow-md hover:shadow-xl transition-shadow duration-300 hover:scale-[1.03] transform">
+        <img [src]="'https://localhost:7115'+product.ImageUrls[0]" alt="Example Product 1"
+          class="w-full h-64 rounded-md mb-4" />
+        <h4 class="text-lg font-semibold mb-2 text-white">{{product.Name}}</h4>
+        <p class="mb-1 text-gray-300"><strong>SubCategory: </strong> {{product.SubCategoryName}}</p>
+        <p class="mb-1 text-gray-300"><strong>Price: </strong> {{product.Price}}</p>
+        <p class="mb-1 text-gray-300"><strong>Stock Quantity: </strong>{{product.StockQuantity}}</p>
+        <p class="mb-1 text-gray-300"><strong>Status: </strong>
+          <span class="text-green-600">{{product.ApplicationStatus}}</span>
+        </p>
+        <div class="mt-4 flex justify-between gap-2">
+          @if (product.ApplicationStatus=="NotOrdered") {
+          <button
+            class="flex-1 bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 rounded-lg transition duration-200"
+            (click)="onEdit(product)">
+            Edit
+          </button>
+          }
+          <button
+            class="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-lg transition duration-200"
+            (click)="onDelete(product.Name)">
+            Delete
+          </button>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+  }
+
+  <div class="text-center mt-10">
+    <button (click)="openAddModal()"
+      class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all">
+      + Add New Product
+    </button>
+  </div>
+
+</div>
+
+
+
+@if (isOpenEdit) {
+<div class="flex flex-col items-center p-6 min-h-screen fixed inset-0 justify-center z-50 bg-black bg-opacity-50"
+  (click)="closeEditModal()">
+  <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6 space-y-6 relative" (click)="$event.stopPropagation()">
+    <h3 class="text-xl font-semibold mb-4 text-center text-amber-600">Change Product</h3>
+
+    <form [formGroup]="editFormGroup" (ngSubmit)="onSubmitEditProduct()">
+      <div>
+        <label class="block font-semibold mb-1">Name</label>
+        <input type="text" formControlName="name" class="w-full border rounded-lg p-2" />
+        @if (editFormGroup.get('name')?.hasError('required') && editFormGroup.get('name')?.touched) {
+        <p class="text-red-500 text-sm mt-1">Name is required.</p>
+        }
+        @if (editFormGroup.get('name')?.hasError('maxlength') && editFormGroup.get('name')?.touched) {
+        <p class="text-red-500 text-sm mt-1">Name must be less than 30 characters.</p>
+        }
+      </div>
+
+      <div class="mt-3">
+        <label class="block font-semibold mb-1">Description</label>
+        <textarea formControlName="description" class="w-full border rounded-lg p-2"></textarea>
+        @if (editFormGroup.get('description')?.hasError('required') && editFormGroup.get('description')?.touched) {
+        <p class="text-red-500 text-sm mt-1">Description is required.</p>
+        }
+        @if (editFormGroup.get('description')?.hasError('maxlength') && editFormGroup.get('description')?.touched) {
+        <p class="text-red-500 text-sm mt-1">Description must be less than 200 characters.</p>
+        }
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mt-3">
+        <div>
+          <label class="block font-semibold mb-1">Price</label>
+          <input type="number" min="0.1" step="0.1" formControlName="price" class="w-full border rounded-lg p-2" />
+          @if (editFormGroup.get('price')?.hasError('required') && editFormGroup.get('price')?.touched) {
+          <p class="text-red-500 text-sm mt-1">Price is required.</p>
+          }
+          @if (editFormGroup.get('price')?.hasError('min') && editFormGroup.get('price')?.touched) {
+          <p class="text-red-500 text-sm mt-1">Price must be at least 0.01.</p>
+          }
+        </div>
+        <div>
+          <label class="block font-semibold mb-1">Stock Quantity</label>
+          <input type="number" min="1" formControlName="stockQuantity" class="w-full border rounded-lg p-2" />
+          @if (editFormGroup.get('stockQuantity')?.hasError('required') && editFormGroup.get('stockQuantity')?.touched)
+          {
+          <p class="text-red-500 text-sm mt-1">Stock Quantity is required.</p>
+          }
+          @if (editFormGroup.get('stockQuantity')?.hasError('max') && editFormGroup.get('stockQuantity')?.touched) {
+          <p class="text-red-500 text-sm mt-1">Stock Quantity cannot exceed 50.</p>
+          }
+          @if (editFormGroup.get('stockQuantity')?.hasError('min') && editFormGroup.get('stockQuantity')?.touched) {
+          <p class="text-red-500 text-sm mt-1">Stock Quantity must be at least 1.</p>
+          }
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mt-3">
+        <div>
+          <label class="block font-semibold mb-1">Weight</label>
+          <input type="number" min="0.1" step="0.01" formControlName="weight" class="w-full border rounded-lg p-2" />
+          @if (editFormGroup.get('weight')?.hasError('required') && editFormGroup.get('weight')?.touched) {
+          <p class="text-red-500 text-sm mt-1">Weight is required.</p>
+          }
+          @if (editFormGroup.get('weight')?.hasError('min') && editFormGroup.get('weight')?.touched) {
+          <p class="text-red-500 text-sm mt-1">Weight must be at least 0.</p>
+          }
+        </div>
+        <div class="flex items-center gap-2 mt-5">
+          <input type="checkbox" id="isNew" formControlName="isNew" />
+          <label for="isNew" class="font-semibold">Is New?</label>
+          @if (editFormGroup.get('isNew')?.hasError('required') && editFormGroup.get('isNew')?.touched) {
+          <p class="text-red-500 text-sm mt-1">This field is required.</p>
+          }
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <label class="block font-semibold mb-1">Subcategory</label>
+        <input type="text" formControlName="subCategoryName" class="w-full border rounded-lg p-2" />
+        @if (editFormGroup.get('subCategoryName')?.hasError('required') &&
+        editFormGroup.get('subCategoryName')?.touched) {
+        <p class="text-red-500 text-sm mt-1">Subcategory is required.</p>
+        }
+        @if (editFormGroup.get('subCategoryName')?.hasError('maxlength') &&
+        editFormGroup.get('subCategoryName')?.touched) {
+        <p class="text-red-500 text-sm mt-1">Subcategory must be less than 50 characters.</p>
+        }
+      </div>
+
+      <div class="mt-3">
+        <label class="block font-semibold mb-1">Images</label>
+        <input type="file" multiple (change)="onFileChange($event)" class="w-full border rounded-lg p-2"
+          formControlName="images" />
+        @if (editFormGroup.get('images')?.hasError('required') && editFormGroup.get('images')?.touched) {
+        <p class="text-red-500 text-sm mt-1">At least one image is required.</p>
+        }
+      </div>
+
+      <div class="flex justify-between mt-6">
+        <button type="button" (click)="closeEditModal()"
+          class="bg-gray-300 hover:bg-gray-400 text-stone-900 py-2 px-4 rounded-lg">
+          Cancel
+        </button>
+        <button type="submit" class="bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg">
+          Change Product
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}
+
+@if (isOpenAdd) {
+<form [formGroup]="addFormGroup" (ngSubmit)="onSubmitAddProduct()">
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[200] overflow-y-auto"
+    (click)="closeAddModal()">
+    <div class="max-w-xl w-full mx-auto border rounded-lg p-6 bg-stone-500 shadow-lg max-h-[90vh] overflow-y-auto"
+      (click)="$event.stopPropagation()">
+      <h3 class="text-xl font-semibold mb-4 text-center text-white">Add Product</h3>
+
+      <div>
+        <label class="block font-semibold mb-1 text-gray-200">Name</label>
+        <input type="text" class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" placeholder="Product name" formControlName="name" />
+        @if (addFormGroup.get('name')?.hasError('required') && addFormGroup.get('name')?.touched) {
+        <p class="text-red-500 text-sm mt-1">Name is required.</p>
+        }
+        @if (addFormGroup.get('name')?.hasError('maxlength') && addFormGroup.get('name')?.touched) {
+        <p class="text-red-500 text-sm mt-1">Name must be less than 30 characters.</p>
+        }
+      </div>
+
+      <div class="mt-3">
+        <label class="block font-semibold mb-1 text-gray-200">Description</label>
+        <textarea name="description" class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" placeholder="Product description"
+          formControlName="description"></textarea>
+        @if (addFormGroup.get('description')?.hasError('required') && addFormGroup.get('description')?.touched) {
+        <p class="text-red-500 text-sm mt-1">Description is required.</p>
+        }
+        @if (addFormGroup.get('description')?.hasError('maxlength') && addFormGroup.get('description')?.touched) {
+        <p class="text-red-500 text-sm mt-1">Description must be less than 200 characters.</p>
+        }
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mt-3">
+        <div>
+          <label class="block font-semibold mb-1 text-gray-200">Price</label>
+          <input type="number" min="0.1" step="0.1" name="price" class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" placeholder="299"
+            formControlName="price" />
+          @if (addFormGroup.get('price')?.hasError('required') && addFormGroup.get('price')?.touched) {
+          <p class="text-red-500 text-sm mt-1">Price is required.</p>
+          }
+        </div>
+        <div>
+          <label class="block font-semibold mb-1 text-gray-200">Stock Quantity</label>
+          <input type="number" min="1" name="stockQuantity" class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" placeholder="20"
+            formControlName="stockQuantity" />
+          @if (addFormGroup.get('stockQuantity')?.hasError('required') && addFormGroup.get('stockQuantity')?.touched) {
+          <p class="text-red-500 text-sm mt-1">Stock Quantity is required.</p>
+          }
+          @if (addFormGroup.get('stockQuantity')?.hasError('max') && addFormGroup.get('stockQuantity')?.touched) {
+          <p class="text-red-500 text-sm mt-1">Stock Quantity cannot exceed 50.</p>
+          }
+          @if (addFormGroup.get('stockQuantity')?.hasError('min') && addFormGroup.get('stockQuantity')?.touched) {
+          <p class="text-red-500 text-sm mt-1">Stock Quantity must be at least 1.</p>
+          }
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mt-3">
+        <div>
+          <label class="block font-semibold mb-1 text-gray-200">Weight</label>
+          <input type="number" min="0.1" name="weight" step="0.01" class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition"
+            placeholder="1.2 kg" formControlName="weight" />
+          @if (addFormGroup.get('weight')?.hasError('required') && addFormGroup.get('weight')?.touched) {
+          <p class="text-red-500 text-sm mt-1">Weight is required.</p>
+          }
+          @if (addFormGroup.get('weight')?.hasError('min') && addFormGroup.get('weight')?.touched) {
+          <p class="text-red-500 text-sm mt-1">Weight must be at least 0.01.</p>
+          }
+        </div>
+        <div class="flex items-center gap-2 mt-5">
+          <input type="checkbox" id="isNew" name="isNew" formControlName="isNew"
+            class="border border-stone-500 bg-stone-700 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" />
+          <label for="isNew" class="font-semibold text-gray-200">Is New?</label>
+          @if (addFormGroup.get('isNew')?.hasError('required') && addFormGroup.get('isNew')?.touched) {
+          <p class="text-red-500 text-sm mt-1">This field is required.</p>
+          }
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <label class="block font-semibold mb-1 text-gray-200">Subcategory</label>
+        <input type="text" name="subCategoryName" class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" placeholder="Mobile Phones"
+          formControlName="subCategoryName" />
+        @if (addFormGroup.get('subCategoryName')?.hasError('required') && addFormGroup.get('subCategoryName')?.touched)
+        {
+        <p class="text-red-500 text-sm mt-1">Subcategory is required.</p>
+        }
+        @if (addFormGroup.get('subCategoryName')?.hasError('maxLength') && addFormGroup.get('subCategoryName')?.touched)
+        {
+        <p class="text-red-500 text-sm mt-1">Subcategory must be less than 50 characters.</p>
+        }
+      </div>
+
+      <div class="mt-3">
+        <label class="block font-semibold mb-1 text-gray-200">Images</label>
+        <input type="file" multiple class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" (change)="onFileChangeForAdd($event)"
+          formControlName="images" />
+        @if (addFormGroup.get('images')?.hasError('required') && addFormGroup.get('images')?.touched) {
+        <p class="text-red-500 text-sm mt-1">At least one image is required.</p>
+        }
+      </div>
+
+      <div class="mt-3">
+        <label class="block font-semibold mb-1 text-gray-200">Select Location</label>
+        <div id="map" class="w-full h-72 rounded-lg border border-stone-500"></div>
+
+        <p class="text-sm text-gray-300 mt-2">
+          Click on the map to select product location.
+        </p>
+      </div>
+      <div class="flex justify-between mt-6">
+        <button (click)="closeAddModal()"
+          class="bg-stone-600 hover:bg-stone-500 text-white py-2 px-4 rounded-lg">Cancel</button>
+        <button class="bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg">Add
+          Product</button>
+      </div>
+    </div>
+  </div>
+</form>
+}
+
+
+@if (isChangePassword) {
+<div class="flex flex-col items-center p-6 min-h-screen fixed inset-0 justify-center z-50 bg-black bg-opacity-50"
+  (click)="closeChangePassword()">
+  <div class="w-full max-w-md bg-stone-500 rounded-2xl shadow-2xl p-8 space-y-6 relative"
+    (click)="$event.stopPropagation()">
+    <h3 class="text-2xl font-bold text-center mb-2  text-white">Change Password</h3>
+    <p class="text-gray-300 text-center mb-6">
+      Please enter your current password and choose a new password. Make sure your new password is strong and secure.
+    </p>
+    <form [formGroup]="changePasswordGroup" (ngSubmit)="onSubmitChangePassword()" class="space-y-5">
+      <div class="flex flex-col gap-1">
+        <label for="current" class="font-medium text-gray-200">Current Password</label>
+        <input formControlName="currentPassword" type="password" id="current" autocomplete="current-password"
+          class="w-full border border-stone-500 bg-stone-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-amber-600 transition"
+          placeholder="Enter current password">
+        @if (currentPasswordisWrong) {
+        <span class="text-red-500 text-xs mt-1">Current password is incorrect.</span>
+        }
+        @if (changePasswordGroup.get('currentPassword')?.invalid && changePasswordGroup.get('currentPassword')?.touched)
+        {
+        <span class="text-red-500 text-xs mt-1">Current password is required.</span>
+        }
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="new1" class="font-medium text-gray-200">New Password</label>
+        <input formControlName="newPassword1" type="password" id="new1" autocomplete="new-password"
+          class="w-full border border-stone-500 bg-stone-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-amber-600 transition"
+          placeholder="Enter new password">
+        @if (changePasswordGroup.get('newPassword1')?.invalid && changePasswordGroup.get('newPassword1')?.touched) {
+        <span class="text-red-500 text-xs mt-1">New password is required.</span>
+        }
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="new2" class="font-medium text-gray-200">Confirm New Password</label>
+        <input formControlName="newPassword2" type="password" id="new2" autocomplete="new-password"
+          class="w-full border border-stone-500 bg-stone-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-amber-600 transition"
+          placeholder="Confirm new password">
+        @if (changePasswordGroup.get('newPassword2')?.invalid && changePasswordGroup.get('newPassword2')?.touched) {
+        <span class="text-red-500 text-xs mt-1">Please confirm your new password.</span>
+        }
+        @if (changePasswordGroup.hasError('passwordMismatch') && changePasswordGroup.get('newPassword2')?.touched) {
+        <span class="text-red-500 text-xs mt-1">Passwords do not match.</span>
+        }
+      </div>
+      <div class="flex justify-end gap-3 pt-4">
+        <button type="button" (click)="closeChangePassword()"
+          class="bg-stone-600 hover:bg-stone-500 text-white font-medium py-2 px-5 rounded-lg shadow-sm transition">Cancel</button>
+        <button type="submit"
+          class="bg-amber-600 hover:bg-amber-700 text font-semibold py-2 px-5 rounded-lg shadow-sm transition">Change
+          Password</button>
+      </div>
+    </form>
+  </div>
+</div>
+}
+
+@if (isCourierApplication) {
+<div class="flex flex-col items-center p-6 min-h-screen fixed inset-0 justify-center z-50 bg-black bg-opacity-50"
+  (click)="closeCourierApplication()">
+  <div class="w-full max-w-md bg-stone-500 rounded-2xl shadow-2xl p-8 space-y-6 relative"
+    (click)="$event.stopPropagation()">
+    <h3 class="text-2xl font-bold text-center mb-2 text-white ">Courier Application</h3>
+    <p class="text-gray-300 text-center mb-6">
+      Please upload your CV and select your vehicle type.
+    </p>
+    <form [formGroup]="courierApplicationForm" (ngSubmit)="onSubmitCourierApplication()" class="space-y-5">
+      <div>
+        <label class="block font-medium mb-1 text-gray-200" for="cvFile">Upload your CV</label>
+        <input (change)="onFileChangeForCourier($event)" id="cvFile" type="file" formControlName="cvFile"
+          class="w-full border border-stone-500 bg-stone-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" />
+        @if ((courierApplicationForm.get('cvFile')?.invalid && courierApplicationForm.get('cvFile')?.touched)) {
+        <span class="text-red-500 text-xs mt-1">CV file is required.</span>
+        }
+      </div>
+      <div>
+        <label class="block font-medium mb-1 text-gray-200" for="vehicleType">Vehicle Type</label>
+        <select id="vehicleType" formControlName="vehicleType"
+          class="w-full border border-stone-500 bg-stone-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-amber-600 transition">
+          <option value="None">None</option>
+          <option value="Bicycle">Bicycle</option>
+          <option value="Motorcycle">Motorcycle</option>
+          <option value="Car">Car</option>
+          <option value="Van">Van</option>
+          <option value="Truck">Truck</option>
+        </select>
+        @if (courierApplicationForm.get('vehicleType')?.invalid && (courierApplicationForm.get('vehicleType')?.touched
+        ||isSubmitted)) {
+        <span class="text-red-500 text-xs mt-1">Vehicle type is required.</span>
+        }
+      </div>
+      <div class="flex justify-end gap-3 pt-4">
+        <button type="button" (click)="closeCourierApplication()"
+          class="bg-stone-600 hover:bg-stone-500 text-white font-medium py-2 px-5 rounded-lg shadow-sm transition">
+          Cancel
+        </button>
+        <button type="submit"
+          class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 px-5 rounded-lg shadow-sm transition">
+          Submit Application
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}

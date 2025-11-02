@@ -1,0 +1,233 @@
+<div class="container mx-auto p-4 bg-stone-700">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="md:col-span-2">
+      <div class="relative">
+        <div class="flex justify-center">
+          @if (product?.ImageUrls.length>1) {
+          <div id="carouselExampleControls" class="carousel slide w-[700px] h-[30rem]" data-ride="carousel">
+            <div class="carousel-inner">
+              @for (image of product?.ImageUrls; track image) {
+              <div class="carousel-item active">
+                <img [src]="'https://localhost:7115' + image" class="d-block  w-[700px] h-[30rem]" alt="...">
+              </div>
+              }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+              data-bs-slide="prev">
+              <span class="carousel-control-prev-icon filter brightness-0 invert text-amber-500" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+              data-bs-slide="next">
+              <span class="carousel-control-next-icon filter brightness-0 invert text-amber-500" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+          }
+          @else {
+          <div>
+            <img [src]="'https://localhost:7115'+product?.ImageUrls[0]" class="w-[700px] h-[30rem]" alt="">
+          </div>
+          }
+        </div>
+
+        @if (product?.IsNew) {
+        <span class="absolute top-3 left-3 bg-green-600 text-white px-2 py-1 text-xs rounded">NEW</span>
+        }
+      </div>
+      <div class="flex gap-2 mt-3">
+        @for (image of product?.ImageUrls; track image) {
+        <img class="w-16 h-16 object-cover rounded " [src]="'https://localhost:7115' + image">
+        }
+      </div>
+    </div>
+
+    <div class="p-4 border rounded bg-stone-700 border-stone-500">
+      <h1 class="text-2xl font-semibold mb-1 text-white">{{product?.Name}}</h1>
+      <div class="text-xl w-5 flex">
+        @if(product?.ProductRate==0){
+        <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+        <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+        <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+        <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+        <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+        }
+        @if (product?.ProductRate<=0.5 && product?.ProductRate>0) {
+          <img src="/halfstar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+          }
+          @if (product?.ProductRate<=1 && product?.ProductRate>0.5) {
+            <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+            <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+            <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+            <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+            <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+
+            }
+            @if (product?.ProductRate>1 && product?.ProductRate<=1.5) { <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+              <img src="/halfstar.png" class="mx-1 h-[20px] w-[20px] filter brightness-0 invert text-amber-400" alt="">
+              <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+              <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+              <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+              }
+              @if (product?.ProductRate<=2 && product?.ProductRate>1.5) {
+                <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                }
+                @if (product?.ProductRate<=2.5 && product?.ProductRate>2) {
+                  <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                  <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                  <img src="/halfstar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                  <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                  <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+
+                  }
+                  @if (product?.ProductRate<=3 && product?.ProductRate>2.5) {
+                    <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                    <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                    <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                    <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                    <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                    }
+                    @if (product?.ProductRate<=3.5 && product?.ProductRate>3) {
+                      <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                      <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                      <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                      <img src="/halfstar.png " class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                      <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                      }
+                      @if (product?.ProductRate<=4 && product?.ProductRate>3.5) {
+                        <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                        <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                        <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                        <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                        <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                        }
+                        @if (product?.ProductRate<=4.5 && product?.ProductRate>4) {
+                          <img src="/star.png" class="filter brightness-0 invert text-amber-400" alt="">
+                          <img src="/star.png" class="filter brightness-0 invert text-amber-400" alt="">
+                          <img src="/star.png" class="filter brightness-0 invert text-amber-400" alt="">
+                          <img src="/star.png" class="filter brightness-0 invert text-amber-400" alt="">
+                          <img src="/halfstar.png" class="filter brightness-0 invert text-amber-400" alt="">
+                          }
+                          @if (product?.ProductRate<=5 && product?.ProductRate>4.5) {
+                            <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                            <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                            <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                            <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
+                            <img src="/star.png" class="mx-0.5 filter brightness-0 invert text-amber-400" alt="">
+                            }
+      </div>
+      <div class="items-center  mb-2">
+        <div class="text-2xl font-bold text-white">{{product?.Price}} AZN</div>
+      </div>
+      <div class="mb-3 text-sm text-gray-200">
+      </div>
+
+      <div class="flex items-center gap-2 mb-4">
+        <button class="px-3 py-1 border rounded bg-stone-700 text-white border-stone-500 hover:bg-amber-600 hover:text-white" (click)="minusNumber()">-</button>
+        <div class="px-4 text-white">{{quantity}} </div>
+        <button class="px-3 py-1 border rounded bg-stone-700 text-white border-stone-500 hover:bg-amber-600 hover:text-white" (click)="addNumber()">+</button>
+        <div class="text-md text-gray-400 ml-auto">Stock:{{product?.StockQuantity}}</div>
+      </div>
+
+
+      <div class="flex">
+        <button class="flex-1 py-2 rounded bg-amber-600 hover:bg-amber-700 text-white"
+          (click)="addToCart(product?.Name,quantity)">Add to Cart</button>
+      </div>
+
+      <div class="mt-3 text-xs text-gray-400 flex flex-row-reverse">
+        <button class="underline hover:text-amber-500" (click)="showLocation()">Show {{product?.Name}} 's
+          location</button>
+      </div>
+      <br><br>
+      <div class=" ">
+        <div class="text-xl text-white">Seller: {{product?.OwnerName}} {{product?.OwnerSurname}}</div>
+        <div class="mt-3 text-xl text-white">Rate Quantity:{{product?.RateQuantity}}</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="mt-6 p-4 bg-stone-700 border border-stone-500 rounded">
+    <h2 class="text-lg font-semibold mb-2 text-white">Description </h2>
+    <p class="text-sm text-gray-200">{{product?.Description}} </p>
+
+    <h3 class="mt-4 font-medium text-white"> Technical details </h3>
+    <table class="w-full text-sm mt-2 text-gray-200">
+      <tr>
+        <td class="py-1">Weight</td>
+        <td class="py-1">{{product?.Weight}} kg</td>
+      </tr>
+      <tr>
+        <td class="py-1">Is New</td>
+        <td class="py-1">
+          @if(product?.IsNew){
+          <span class="text-gray-200">Yes</span>
+          }
+          @else {
+          <span class="text-gray-200">No</span>
+          }
+        </td>
+      </tr>
+      <tr>
+        <td class="py-1">SubCategory Name</td>
+        <td class="py-1">{{product?.SubCategoryName}}</td>
+      </tr>
+    </table>
+  </section>
+
+  <section class="mt-6">
+    <h3 class="font-semibold mb-4 text-lg text-white">Comments</h3>
+
+    @if (commentsDatas?.length > 0) {
+    @for (comment of commentsDatas; track $index) {
+    <div class="mb-3 p-4 border rounded-lg bg-stone-700 border-stone-500 shadow-sm">
+      <div class="flex justify-between items-center">
+        <div class="text-sm font-semibold text-white">{{product?.OwnerName}} {{product?.OwnerSurname}}</div>
+        <div class="text-xs text-gray-400">{{ comment.CreateAt | date }}</div>
+      </div>
+      <p class="text-sm text-gray-200 mt-2">{{ comment.Comment }}</p>
+    </div>
+    }
+    }
+    @else {
+    <div class="mt-6 border-t pt-4">
+      <div class="text-sm text-red-400 italic mb-5 bg-stone-600/20 p-2 rounded">No comments yet. Be the first to comment!</div>
+    </div>
+    }
+
+    <textarea rows="3"
+      class="w-full border rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600 resize-none bg-stone-700 text-white border-stone-500"
+      placeholder="Write your comment..." #comment></textarea>
+
+    <button class="mt-3 px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-md transition"
+      (click)="onSend(comment.value)">
+      Send
+    </button>
+
+
+
+    @if (isCommentWrited) {
+    <div class="flex items-center gap-2 mt-3 text-green-600 bg-green-600/10 border border-green-200 px-4 py-3 rounded-md">
+      <img src="check.svg" alt="Success" class="w-5 h-5">
+      <span class="text-sm font-medium">Your comment has been sent successfully!</span>
+    </div>
+    }
+  </section>
+</div>
+
+
+@if (!isMapClosed) {
+<div class="fixed inset-0 bg-stone-700 bg-opacity-90 flex items-center justify-center z-50" (click)="closeMap()">
+  <div class="bg-stone-700 rounded-lg shadow-lg w-[90%] max-w-3xl p-4 relative border border-stone-500 text-white" (click)="$event.stopPropagation()">
+    <button class="absolute top-2 right-2 text-gray-300 hover:text-white" (click)="closeMap()">✖</button>
+    <h2 class="text-lg font-semibold mb-2">Seller Location</h2>
+<div id="map" class="w-full h-[400px] rounded border border-stone-500"></div>
+  </div>
+</div>
+
+}
