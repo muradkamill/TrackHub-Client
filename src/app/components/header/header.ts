@@ -99,7 +99,10 @@ export class Header implements OnInit {
     this.showLoginModal = false;
   }
   onSignUp() {
-    if (this.signUpFormGroup.invalid) return;
+    if (this.signUpFormGroup.invalid) {
+      console.log("fail")
+      return;
+    }
     var body = {
       fin: this.signUpFormGroup.get('fin')?.value,
       password: this.signUpFormGroup.get('password')?.value,
@@ -110,6 +113,7 @@ export class Header implements OnInit {
 
     this.authService.signUp(body).subscribe({
       next: () => {
+        console.log("success");
         this.responseSignUp = 'Registered Successfully!';
       },
       error: (err) => {

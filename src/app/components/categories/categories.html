@@ -20,26 +20,29 @@
 
 @if (hoverEl) {
   <div
-    class="absolute top-[101px] mx-3 mt-5 grid grid-cols-3 md:grid-cols-5 bg-stone-700 border border-stone-500 z-10 rounded-md"
+    class="absolute top-[95px] left-1/2 -translate-x-1/2 w-full max-w-6xl mx-auto mt-4 bg-stone-800 border border-stone-600 z-10 rounded-md p-3 shadow-lg"
     (mouseenter)="onHover()"
     (mouseleave)="outHover()"
   >
-    @for (category of categories; track category) {
-      <div class="mx-8">
-        <button class="font-bold text-white bg-stone-600 hover:bg-amber-700/70 rounded-md" (click)="getProducts(category.CategoryId)">
-          {{ category.CategoryName }}
-        </button>
-        <br />
-        @for (subCategory of getSubCategories(category.CategoryName); track subCategory) {
-          <button
-            class="text-gray-200 bg-stone-500 hover:bg-amber-700/70 rounded-md"
-            (click)="getProductsBySubcategory(subCategory.SubCategoryId, category.CategoryId)"
-          >
-            {{ subCategory.SubCategoryName }}
-          </button>
-        }
-      </div>
-    }
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      @for (category of categories; track category) {
+        <div class="bg-stone-700 rounded-md p-2 hover:bg-stone-600 transition-all duration-200">
+          <h3 class="font-semibold text-white text-base mb-2 border-b border-stone-500 pb-1 truncate">
+            {{ category.CategoryName }}
+          </h3>
+          <div class="flex flex-col gap-1 mt-1">
+            @for (subCategory of getSubCategories(category.CategoryName); track subCategory) {
+              <button
+                class="text-xs text-gray-200 bg-stone-600 hover:bg-amber-600 hover:text-white rounded-md px-2 py-1 text-left transition-all duration-200 truncate"
+                (click)="getProductsBySubcategory(subCategory.SubCategoryId, category.CategoryId)"
+              >
+                {{ subCategory.SubCategoryName }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
   </div>
 }
 </div>

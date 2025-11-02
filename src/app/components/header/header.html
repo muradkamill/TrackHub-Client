@@ -1,18 +1,20 @@
 <div class="flex flex-row h-18 justify-around items-center bg-stone-700 text-white">
   <div>
-    <img (click)="toHome()" class="w-[4.5rem] h-[4.5rem]" src="Trackhub-removebg-preview.png" alt="Logo" />
+    <img (click)="toHome()" class="w-[4.5rem] h-[4.5rem]" src="logo.png" alt="Logo" />
   </div>
   <div class="flex items-center gap-2">
     <input type="text" id="search" name="search" #search placeholder="Search"
       class="bg-stone-700 border border-stone-500 rounded-lg px-3 py-1 text-white focus:outline-none focus:ring-amber-600" />
-    <button class="border border-stone-500 h-8 w-8 flex items-center justify-center rounded bg-amber-600 hover:bg-amber-700 text-white"
+    <button
+      class="border border-stone-500 h-8 w-8 flex items-center justify-center rounded bg-amber-600 hover:bg-amber-700 text-white"
       (click)="onSearch(search.value)">
       <img src="search.png" alt="Search" class="w-4 h-4" />
     </button>
   </div>
   <div class="relative" (mouseenter)="onHover()" (mouseleave)="outHover()">
     @if (isAuth) {
-    <button class="flex bg-amber-600 hover:bg-amber-700 text-white rounded px-2 py-1" (mouseenter)="onMyAccount()" (mouseleave)="outMyAccount()">
+    <button class="flex bg-amber-600 hover:bg-amber-700 text-white rounded px-2 py-1" (mouseenter)="onMyAccount()"
+      (mouseleave)="outMyAccount()">
       @if (profilePhotoUrl) {
       <img [src]="'https://localhost:7115'+profilePhotoUrl" class="w-7 h-7 rounded-full mr-1" alt="" />
       }
@@ -23,7 +25,8 @@
     </button>
     @if (showMyAccountModal) {
     <div class="fixed flex items-center justify-center z-50" (mouseenter)="onMyAccount()" (mouseleave)="outMyAccount()">
-      <div class="w-full max-w-lg bg-stone-700 border border-stone-500 rounded-lg shadow-lg p-6 relative text-white" (click)="$event.stopPropagation()">
+      <div class="w-full max-w-lg bg-stone-700 border border-stone-500 rounded-lg shadow-lg p-6 relative text-white"
+        (click)="$event.stopPropagation()">
         <button class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 mt-2 w-full rounded"
           (click)="onUserDashboard()">
           User Dashboard (Profile)
@@ -36,7 +39,8 @@
         </button>
         <br />
         }
-        <button class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 mt-2 w-full rounded" (click)="Logout()">
+        <button class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 mt-2 w-full rounded"
+          (click)="Logout()">
           Logout
         </button>
       </div>
@@ -58,7 +62,8 @@
     }
   </div>
   <div>
-    <button class="relative flex items-center gap-1 bg-amber-600 hover:bg-amber-700 text-white rounded px-2 py-1" (click)="onClickCart()">
+    <button class="relative flex items-center gap-1 bg-amber-600 hover:bg-amber-700 text-white rounded px-2 py-1"
+      (click)="onClickCart()">
       <div class="relative">
         <img class="w-5 h-5" src="/cart.png" alt="Cart" />
       </div>
@@ -79,12 +84,12 @@
       </button>
 
       <div class="flex justify-center gap-4 mb-6">
-        <button class="px-4 py-2 rounded font-semibold bg-amber-600 hover:bg-amber-700 text-white" [class.bg-amber-600]="showLoginModal"
-          [class.text-white]="showLoginModal" (click)="openLoginModal()">
+        <button class="px-4 py-2 rounded font-semibold bg-amber-600 hover:bg-amber-700 text-white"
+          [class.bg-amber-600]="showLoginModal" [class.text-white]="showLoginModal" (click)="openLoginModal()">
           Login
         </button>
-        <button class="px-4 py-2 rounded font-semibold bg-amber-600 hover:bg-amber-700 text-white" [class.bg-amber-600]="showSignUpModal"
-          [class.text-white]="showSignUpModal" (click)="openSignUpModal()">
+        <button class="px-4 py-2 rounded font-semibold bg-amber-600 hover:bg-amber-700 text-white"
+          [class.bg-amber-600]="showSignUpModal" [class.text-white]="showSignUpModal" (click)="openSignUpModal()">
           Sign Up
         </button>
       </div>
@@ -92,16 +97,20 @@
       @if (showLoginModal) {
       <label class="block mb-2 text-sm text-gray-200">FIN</label>
       <input type="text" placeholder="FIN"
-        class="w-full mb-1 p-2 rounded bg-stone-700 border border-stone-500 text-white focus:outline-none focus:ring-amber-600" #signinFin />
+        class="w-full mb-1 p-2 rounded bg-stone-700 border border-stone-500 text-white focus:outline-none focus:ring-amber-600"
+        #signinFin />
       @if (isFinWrong) {
-      <div class="bg-stone-600/opacity-20 text-red-400 text-xs mt-1 mb-3 rounded px-2 py-1">Incorrect FIN. Please check and try again.</div>
+      <div class="bg-stone-600/opacity-20 text-red-400 text-xs mt-1 mb-3 rounded px-2 py-1">Incorrect FIN. Please check
+        and try again.</div>
       }
 
       <label class="block mb-2 text-sm text-gray-200">Password</label>
       <input type="password" placeholder="Password"
-        class="w-full mb-6 p-2 rounded bg-stone-700 border border-stone-500 text-white focus:outline-none focus:ring-amber-600" #signinPassword />
+        class="w-full mb-6 p-2 rounded bg-stone-700 border border-stone-500 text-white focus:outline-none focus:ring-amber-600"
+        #signinPassword />
       @if (isPasswordWrong) {
-      <div class="bg-stone-600/opacity-20 text-red-400 text-xs mt-1 rounded px-2 py-1">Incorrect password. Please try again.</div>
+      <div class="bg-stone-600/opacity-20 text-red-400 text-xs mt-1 rounded px-2 py-1">Incorrect password. Please try
+        again.</div>
       }
 
 
@@ -216,8 +225,11 @@
             class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 mt-2 w-full rounded transition">
             SIGN UP
           </button>
+          @if (responseSignUp) {
+          <div class="mt-2 text-center text-sm text-green-600 bg-green-600/10 rounded px-2 py-1">{{responseSignUp}}
+          </div>
 
-          <div class="mt-2 text-center text-sm text-green-600 bg-green-600/10 rounded px-2 py-1">{{ responseSignUp }}</div>
+          }
         </div>
       </form>
       }
