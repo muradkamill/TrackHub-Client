@@ -16,9 +16,11 @@ TrackHub Client is the frontend of the TrackHub marketplace project, built using
 ---
 
 ## 🖥️ Screenshots
+<img width="1470" height="808" alt="Screenshot 2025-11-02 at 22 39 53" src="https://github.com/user-attachments/assets/2f45ce9e-ea98-4916-bb83-39a0ff3286a7" />
+<img width="1470" height="810" alt="Screenshot 2025-11-02 at 22 41 13" src="https://github.com/user-attachments/assets/20793b05-1432-4533-a029-d1a99b921337" />
+<img width="1467" height="810" alt="Screenshot 2025-11-02 at 22 42 46" src="https://github.com/user-attachments/assets/a75f25d5-4292-44ec-bbf2-97755406a91c" />
 
-*(You can add screenshots here to showcase the responsive design and UI)*
-(public/Screenshot1.png)
+
 
 ---
 
