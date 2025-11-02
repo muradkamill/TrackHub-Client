@@ -1,59 +1,86 @@
-# TrackHubClient
+# 🛒 TrackHub Client
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.0.
+TrackHub Client is the frontend of the TrackHub marketplace project, built using **Angular 20**. The application is designed with a **responsive layout**, ensuring an optimal experience on desktop, tablet, and mobile devices.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🌟 Features
+
+* **Modern Angular 20 frontend** with modular architecture
+* Fully **responsive design** using TailwindCSS and custom styles
+* Dynamic **category and subcategory menus** for easy navigation
+* Integration with backend APIs for product listing and filtering
+* Interactive UI elements with hover effects and animations
+* Clean and maintainable code structure
+
+---
+
+## 🖥️ Screenshots
+
+*(You can add screenshots here to showcase the responsive design and UI)*
+(public/Screenshot1.png)
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+* Node.js >= 20.x
+* Angular CLI >= 20.x
+
+### Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone [https://github.com/your-username/TrackHub-Client.git](https://github.com/your-username/TrackHub-Client.git)
+    ```
+2.  Navigate to the project folder:
+    ```bash
+    cd TrackHub-Client
+    ```
+3.  Install dependencies:
+    ```bash
+    npm install
+    ```
+4.  Start the development server:
+    ```bash
+    ng serve
+    ```
+5.  Open your browser and go to:
+    ```
+    http://localhost:4200
+    ```
+
+---
+
+## ⚙️ Technologies Used
+
+| Technology | Purpose |
+| :--- | :--- |
+| **Angular 20** | Core JavaScript Framework |
+| **TypeScript** | Language for type safety and scalability |
+| **TailwindCSS** | Utility-first CSS framework for responsive design |
+| **HTML5 & CSS3** | Markup and Styling |
+| **RxJS** | Optional: Reactive programming for handling asynchronous data streams |
+| **REST APIs** | Integration with TrackHub backend services |
+
+---
+
+## 💻 Common Commands
+
+| Command | Description |
+| :--- | :--- |
+| `ng serve --open` | Serves the application and opens a new browser window. |
+| `ng test` | Executes the unit tests via [Karma](https://karma-runner.github.io). |
+| `ng test --code-coverage` | Runs tests and generates a code coverage report. |
+| `ng generate c <name>` | Generates a new component (e.g., `ng g c products/list`). |
+
+---
+
+## 📦 Deployment
+
+To build the project for a production environment, use the Angular CLI's build command. This will compile and optimize the application into static files ready for any web server.
 
 ```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+ng build --configuration production
