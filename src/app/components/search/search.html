@@ -1,6 +1,8 @@
-<div class="flex-grow flex flex-col bg-stone-500 px-4 py-6">
-  <h1 class="text-2xl font-bold mb-6 text-white my-0 mx-auto ">Results For : <strong>{{productName}}</strong> </h1>
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-3">
+<div class="flex-grow flex flex-col bg-stone-700 px-4 py-6 min-h-96">
+  <h1 class="text-2xl font-bold text-white my-0 mx-auto mb-6">
+    Results For : <strong>{{productName}}</strong>
+  </h1>  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-3">
+     @if(products.length > 0) {
     @for (product of products; track $index) {
     <div
       class="relative w-full mb-4 bg-stone-700 border-l-4 border-stone-500 rounded-xl shadow-md transition-transform transform hover:-translate-y-1 hover:shadow-xl flex flex-col overflow-hidden">
@@ -105,5 +107,11 @@
       </div>
     </div>
     }
+  }
+  @else {
+    <div class="col-span-full text-center text-gray-200 mt-10">
+        No products found.
+      </div>
+  }
   </div>
 </div>
