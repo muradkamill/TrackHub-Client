@@ -12,7 +12,7 @@ export class Signalr {
 async startConnection() {
     // if (!this.hubConnection || this.hubConnection.state === signalR.HubConnectionState.Disconnected) {
       this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl(`${this.globalvar.BaseUrl}/hub/notifications`, {
+        .withUrl(`${this.globalvar.BaseUrlForImg}/hub/notifications`, {
           accessTokenFactory: () => sessionStorage.getItem("accessToken")!
         })
         .withAutomaticReconnect()
