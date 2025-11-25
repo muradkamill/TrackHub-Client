@@ -4,11 +4,11 @@
       <div class="relative">
         <div class="flex justify-center">
           @if (product?.ImageUrls.length>1) {
-          <div id="carouselExampleControls" class="carousel slide w-[700px] h-[30rem]" data-ride="carousel">
+          <div id="carouselExampleControls" class="carousel slide w-[700px] h-120" data-ride="carousel">
             <div class="carousel-inner">
               @for (image of product?.ImageUrls; track image) {
               <div class="carousel-item active">
-                <img [src]="'https://localhost:7115' + image" class="d-block  w-[700px] h-[30rem]" alt="...">
+                <img [src]="`${globalvar.BaseUrlForImg}` + image" class="d-block  w-[700px] h-120" alt="...">
               </div>
               }
             </div>
@@ -27,7 +27,7 @@
           }
           @else {
           <div>
-            <img [src]="'https://localhost:7115'+product?.ImageUrls[0]" class="w-[700px] h-[30rem]" alt="">
+            <img [src]="`${globalvar.BaseUrlForImg}`+product?.ImageUrls[0]" class="w-[700px] h-120" alt="">
           </div>
           }
         </div>
@@ -38,7 +38,7 @@
       </div>
       <div class="flex gap-2 mt-3">
         @for (image of product?.ImageUrls; track image) {
-        <img class="w-16 h-16 object-cover rounded " [src]="'https://localhost:7115' + image">
+        <img class="w-16 h-16 object-cover rounded " [src]="`${globalvar.BaseUrlForImg}` + image">
         }
       </div>
     </div>
@@ -65,7 +65,7 @@
 
             }
             @if (product?.ProductRate>1 && product?.ProductRate<=1.5) { <img src="/star.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
-              <img src="/halfstar.png" class="mx-1 h-[20px] w-[20px] filter brightness-0 invert text-amber-400" alt="">
+              <img src="/halfstar.png" class="mx-1 h-5 w-5 filter brightness-0 invert text-amber-400" alt="">
               <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
               <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">
               <img src="/emptystar.png" class="mx-1 filter brightness-0 invert text-amber-400" alt="">

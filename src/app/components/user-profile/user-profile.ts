@@ -3,6 +3,7 @@ import { Component, inject, OnInit, AfterViewInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as L from 'leaflet';
 import Swal from 'sweetalert2';
+import { Globalvar } from '../../services/globalvar';
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 
@@ -29,6 +30,7 @@ const defaultIcon = L.icon({
 export class UserProfile implements OnInit {
   http = inject(HttpClient);
   fb = inject(FormBuilder);
+  public globalvar = inject(Globalvar);
   products: any;
   balance: any;
   isOpenEdit: boolean = false;
@@ -52,24 +54,24 @@ export class UserProfile implements OnInit {
   private marker!: L.Marker;
 
   ngOnInit(): void {
-    this.http.get<any>('https://localhost:7115/api/Person/get-owner-products').subscribe({
+    this.http.get<any>(`${this.globalvar.BaseUrl}/Person/get-owner-products`).subscribe({
       next: (data) => {
         this.products = data;
       },
     });
-    this.http.get<any>('https://localhost:7115/api/Person/get-balance').subscribe({
+    this.http.get<any>(`${this.globalvar.BaseUrl}/Person/get-balance`).subscribe({
       next: (data) => {
         this.balance = data.Balance;
       },
     });
 
-    this.http.get<any>('https://localhost:7115/api/Courier').subscribe({
+    this.http.get<any>(`${this.globalvar.BaseUrl}/Courier`).subscribe({
       next: (data) => {
         this.courierApplication = data?.ApplicationStatus;
       },
     });
 
-    this.http.get<any>('https://localhost:7115/api/Person').subscribe({
+    this.http.get<any>(`${this.globalvar.BaseUrl}/Person`).subscribe({
       next: (data) => {
         this.person = data;
       },
@@ -129,16 +131,36 @@ export class UserProfile implements OnInit {
     });
   }
   onDelete(productName: string) {
-    if (
-      confirm(`Are you sure you want to delete "${productName}"? This action cannot be undone.`)
-    ) {
-      this.http.delete<any>(`https://localhost:7115/api/Product/${productName}`).subscribe({
-        next: () => {
-          this.ngOnInit();
-        },
-      });
-    }
+    Swal.fire({
+      title: `Delete "${productName}"?`,
+      text: 'This action cannot be undone.',
+      icon: 'warning',
+      background: '#1e293b',
+      color: '#f59e0b',
+      showCancelButton: true,
+      confirmButtonColor: '#dc2626',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Yes, delete',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.http.delete<any>(`${this.globalvar.BaseUrl}/Product/${productName}`).subscribe({
+          next: () => {
+            Swal.fire({
+              title: 'Deleted!',
+              text: `"${productName}" has been removed.`,
+              icon: 'success',
+              background: '#1e293b',
+              color: '#f59e0b',
+              confirmButtonColor: '#f59e0b',
+            });
+            this.ngOnInit();
+          },
+        });
+      }
+    });
   }
+
   onEdit(product: any) {
     if (product.IsNew) {
       product.IsNew = true;
@@ -206,7 +228,7 @@ export class UserProfile implements OnInit {
         formData.append('Images', files[i]);
       }
     }
-    this.http.post<any>('https://localhost:7115/api/Product', formData).subscribe({
+    this.http.post<any>(`${this.globalvar.BaseUrl}/Product`, formData).subscribe({
       next: () => {
         this.isOpenAdd = false;
         this.addFormGroup.reset();
@@ -234,7 +256,7 @@ export class UserProfile implements OnInit {
     }
 
     this.http
-      .put<any>(`https://localhost:7115/api/Product/${this.productName}`, formData)
+      .put<any>(`${this.globalvar.BaseUrl}/Product/${this.productName}`, formData)
       .subscribe({
         next: () => {
           this.isOpenEdit = false;
@@ -267,7 +289,7 @@ export class UserProfile implements OnInit {
     formData.append('CurrentPassword', this.changePasswordGroup.get('currentPassword')?.value);
     formData.append('NewPassword', this.changePasswordGroup.get('newPassword1')?.value);
 
-    this.http.put<any>('https://localhost:7115/api/Person/update-password', formData).subscribe({
+    this.http.put<any>(`${this.globalvar.BaseUrl}/Person/update-password`, formData).subscribe({
       next: () => {
         this.isChangePassword = false;
         this.ngOnInit();
@@ -311,7 +333,7 @@ export class UserProfile implements OnInit {
     formData.append('CvUrl', this.selectedCvFile);
 
     this.http
-      .post<any>('https://localhost:7115/api/Person/create-courier-application', formData)
+      .post<any>(`${this.globalvar.BaseUrl}/Person/create-courier-application`, formData)
       .subscribe({
         next: () => {
           this.isCourierApplication = false;
@@ -329,7 +351,7 @@ export class UserProfile implements OnInit {
     var formData = new FormData();
     formData.append('Image', file);
     this.http
-      .put<any>('https://localhost:7115/api/Person/change-profile-photo', formData)
+      .put<any>(`${this.globalvar.BaseUrl}/Person/change-profile-photo`, formData)
       .subscribe({
         next: () => {
           this.ngOnInit();

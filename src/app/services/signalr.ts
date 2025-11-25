@@ -1,16 +1,18 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
+import { Globalvar } from './globalvar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Signalr {
   private hubConnection!: signalR.HubConnection;
+  private globalvar=inject(Globalvar);
 
 async startConnection() {
     // if (!this.hubConnection || this.hubConnection.state === signalR.HubConnectionState.Disconnected) {
       this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl('https://localhost:7115/hub/notifications', {
+        .withUrl(`${this.globalvar.BaseUrl}/hub/notifications`, {
           accessTokenFactory: () => sessionStorage.getItem("accessToken")!
         })
         .withAutomaticReconnect()

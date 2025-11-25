@@ -9,6 +9,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Globalvar } from '../../services/globalvar';
 
 @Component({
   selector: 'app-header',
@@ -19,6 +20,7 @@ import { Router } from '@angular/router';
 export class Header implements OnInit {
   isAuth: boolean = false;
   private authService = inject(AuthService);
+  public globalvar = inject(Globalvar);
   private http = inject(HttpClient);
   private route = inject(Router);
   private fb = inject(FormBuilder);
@@ -42,7 +44,7 @@ export class Header implements OnInit {
     this.refreshToken = sessionStorage.getItem('refreshToken');
     this.accessToken = sessionStorage.getItem('accessToken');
     if (this.accessToken) {
-      this.http.get<any>('https://localhost:7115/api/Person').subscribe({
+      this.http.get<any>(`${this.globalvar.BaseUrl}/Person`).subscribe({
         next: (data) => {
           this.profilePhotoUrl = data.ImageUrl;
         },
@@ -55,6 +57,11 @@ export class Header implements OnInit {
           this.isAuth = true;
           sessionStorage.setItem('accessToken', data.AccessToken);
           sessionStorage.setItem('refreshToken', data.RefreshToken);
+        },
+        error: (err) => {
+          if (err.error[0]=='Refresh Token Expired') {
+            this.authService.logout();
+          }
         },
       });
     }
@@ -100,7 +107,6 @@ export class Header implements OnInit {
   }
   onSignUp() {
     if (this.signUpFormGroup.invalid) {
-      console.log("fail")
       return;
     }
     var body = {
@@ -113,7 +119,7 @@ export class Header implements OnInit {
 
     this.authService.signUp(body).subscribe({
       next: () => {
-        console.log("success");
+        console.log('success');
         this.responseSignUp = 'Registered Successfully!';
       },
       error: (err) => {

@@ -16,8 +16,8 @@
         </div>
 
         <div class="flex gap-4">
-          <div class="w-full max-w-xs h-[20rem] mx-auto">
-            <img [src]="'https://localhost:7115' + cart.ImageUrls[0]"
+          <div class="w-full max-w-xs h-80 mx-auto">
+            <img [src]="`${globalvar.BaseUrlForImg}` + cart.ImageUrls[0]"
               class="w-full h-64 sm:h-72 md:h-80 lg:h-80 object-cover rounded-lg bg-stone-700" alt="..." />
           </div>
 
@@ -31,7 +31,7 @@
                   {{ cart.Description }}
                 </div>
               </div>
-              <button class="h-7 w-7 flex-shrink-0 flex items-center justify-center hover:bg-amber-100 rounded"
+              <button class="h-7 w-7 shrink-0 flex items-center justify-center hover:bg-amber-100 rounded"
                 (click)="onDelete(cart.ProductName)">
                 <img class="h-6 w-6" src="/bin.png" alt="" />
               </button>

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, inject, OnInit } from '@angular/core';
+import { Globalvar } from '../../services/globalvar';
 
 @Component({
   selector: 'app-search',
@@ -11,6 +12,7 @@ import { Component, inject, OnInit } from '@angular/core';
 export class Search implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private http = inject(HttpClient);
+  public globalvar = inject(Globalvar);
   private route = inject(Router);
   productName: any;
   products: any;
@@ -18,12 +20,12 @@ export class Search implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((x) => {
       this.productName = x.get('productName');
-    });
-    this.http.get<any>(`https://localhost:7115/api/Product/${this.productName}`).subscribe({
-      next: (data) => {
-        this.products = data;
-        console.log(data);
-      },
+
+      this.http.get<any>(`${this.globalvar.BaseUrl}/Product/${this.productName}`).subscribe({
+        next: (data) => {
+          this.products = data;
+        },
+      });
     });
   }
 

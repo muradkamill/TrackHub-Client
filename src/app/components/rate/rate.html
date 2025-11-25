@@ -9,7 +9,7 @@
   <div class="border border-stone-500 rounded-lg p-5 bg-stone-700 shadow">
     <div class="text-center mb-4">
       <img
-        src="https://localhost:7115{{product?.ImageUrls[0]}}"
+        [src]="`${globalvar.BaseUrlForImg}`+product?.ImageUrls[0]"
         alt="Product"
         class="mx-auto w-40 h-40 object-cover rounded"
       />

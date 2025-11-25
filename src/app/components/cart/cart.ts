@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import * as L from 'leaflet';
 import Swal from 'sweetalert2';
+import { Globalvar } from '../../services/globalvar';
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 
@@ -34,6 +35,7 @@ export class Cart {
   openPayment: boolean = false;
   selectedVehicle: string = '';
   http = inject(HttpClient);
+  public globalvar = inject(Globalvar);
 
   route = inject(Router);
   carts: any;
@@ -42,7 +44,7 @@ export class Cart {
   selectedCoords: { lat: number; lon: number } | null = null;
 
   ngOnInit(): void {
-    this.http.get<any>('https://localhost:7115/api/Cart').subscribe({
+    this.http.get<any>(`${this.globalvar.BaseUrl}/Cart`).subscribe({
       next: (carts) => {
         this.carts = carts;
         console.log(carts);
@@ -64,7 +66,7 @@ export class Cart {
     const body = {
       productName: `${productName}`,
     };
-    this.http.delete<any>('https://localhost:7115/api/Cart', { body }).subscribe({
+    this.http.delete<any>(`${this.globalvar.BaseUrl}/Cart`, { body }).subscribe({
       next: () => {
         this.ngOnInit();
       },
@@ -74,7 +76,7 @@ export class Cart {
     const body = {
       cartId: `${cartId}`,
     };
-    this.http.put<any>('https://localhost:7115/api/Cart/change-cart-select', body).subscribe({
+    this.http.put<any>(`${this.globalvar.BaseUrl}/Cart/change-cart-select`, body).subscribe({
       next: () => {
         this.ngOnInit();
       },
@@ -87,7 +89,7 @@ export class Cart {
       quantity: productQuantity - 1,
     };
     if (productQuantity - 1 > 0) {
-      this.http.put<any>('https://localhost:7115/api/Cart/update-cart', body).subscribe({
+      this.http.put<any>(`${this.globalvar.BaseUrl}/Cart/update-cart`, body).subscribe({
         next: () => {
           this.price = 0;
           this.ngOnInit();
@@ -101,7 +103,7 @@ export class Cart {
       quantity: productQuantity + 1,
     };
     if (productQuantity + 1 <= stockQuantity) {
-      this.http.put<any>('https://localhost:7115/api/Cart/update-cart', body).subscribe({
+      this.http.put<any>(`${this.globalvar.BaseUrl}/Cart/update-cart`, body).subscribe({
         next: () => {
           this.price = 0;
           this.ngOnInit();
@@ -143,7 +145,7 @@ export class Cart {
       latitude: this.selectedCoords?.lat,
       longitude: this.selectedCoords?.lon,
     };
-    this.http.post<any>('https://localhost:7115/api/Cart/order-cart', body).subscribe({
+    this.http.post<any>(`${this.globalvar.BaseUrl}/Cart/order-cart`, body).subscribe({
       next: () => {
         this.openPayment = false;
         Swal.fire({

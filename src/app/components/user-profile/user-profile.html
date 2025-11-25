@@ -1,9 +1,9 @@
-<div class="p-8 space-y-10 bg-gradient-to-br from-stone-800 to-stone-700 min-h-screen">
+<div class="p-8 space-y-10 bg-linear-to-br from-stone-800 to-stone-700 min-h-screen">
   <div
     class="flex flex-col md:flex-row items-center gap-6 border rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
     <div class="relative">
       @if (person?.ImageUrl) {
-      <img [src]="'https://localhost:7115'+person.ImageUrl" alt="Profile Photo"
+      <img [src]="`${globalvar.BaseUrlForImg}` +person.ImageUrl" alt="Profile Photo"
         class="w-32 h-32 rounded-full object-cover border-2 border-stone-500">
       }
       @else {
@@ -72,8 +72,8 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (product of products; track $index) {
       <div
-        class="bg-gradient-to-br from-stone-800 to-stone-700 border rounded-xl p-5 shadow-md hover:shadow-xl transition-shadow duration-300 hover:scale-[1.03] transform">
-        <img [src]="'https://localhost:7115'+product.ImageUrls[0]" alt="Example Product 1"
+        class="bg-linear-to-br from-stone-800 to-stone-700 border rounded-xl p-5 shadow-md hover:shadow-xl transition-shadow duration-300 hover:scale-[1.03] transform">
+        <img [src]="`${globalvar.BaseUrlForImg}`+product.ImageUrls[0]" alt="Example Product 1"
           class="w-full h-64 rounded-md mb-4" />
         <h4 class="text-lg font-semibold mb-2 text-white">{{product.Name}}</h4>
         <p class="mb-1 text-gray-300"><strong>SubCategory: </strong> {{product.SubCategoryName}}</p>
@@ -227,7 +227,7 @@
 
 @if (isOpenAdd) {
 <form [formGroup]="addFormGroup" (ngSubmit)="onSubmitAddProduct()">
-  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[200] overflow-y-auto"
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-200 overflow-y-auto"
     (click)="closeAddModal()">
     <div class="max-w-xl w-full mx-auto border rounded-lg p-6 bg-stone-500 shadow-lg max-h-[90vh] overflow-y-auto"
       (click)="$event.stopPropagation()">
@@ -235,7 +235,9 @@
 
       <div>
         <label class="block font-semibold mb-1 text-gray-200">Name</label>
-        <input type="text" class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" placeholder="Product name" formControlName="name" />
+        <input type="text"
+          class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition"
+          placeholder="Product name" formControlName="name" />
         @if (addFormGroup.get('name')?.hasError('required') && addFormGroup.get('name')?.touched) {
         <p class="text-red-500 text-sm mt-1">Name is required.</p>
         }
@@ -246,8 +248,9 @@
 
       <div class="mt-3">
         <label class="block font-semibold mb-1 text-gray-200">Description</label>
-        <textarea name="description" class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" placeholder="Product description"
-          formControlName="description"></textarea>
+        <textarea name="description"
+          class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition"
+          placeholder="Product description" formControlName="description"></textarea>
         @if (addFormGroup.get('description')?.hasError('required') && addFormGroup.get('description')?.touched) {
         <p class="text-red-500 text-sm mt-1">Description is required.</p>
         }
@@ -259,16 +262,18 @@
       <div class="grid grid-cols-2 gap-4 mt-3">
         <div>
           <label class="block font-semibold mb-1 text-gray-200">Price</label>
-          <input type="number" min="0.1" step="0.1" name="price" class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" placeholder="299"
-            formControlName="price" />
+          <input type="number" min="0.1" step="0.1" name="price"
+            class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition"
+            placeholder="299" formControlName="price" />
           @if (addFormGroup.get('price')?.hasError('required') && addFormGroup.get('price')?.touched) {
           <p class="text-red-500 text-sm mt-1">Price is required.</p>
           }
         </div>
         <div>
           <label class="block font-semibold mb-1 text-gray-200">Stock Quantity</label>
-          <input type="number" min="1" name="stockQuantity" class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" placeholder="20"
-            formControlName="stockQuantity" />
+          <input type="number" min="1" name="stockQuantity"
+            class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition"
+            placeholder="20" formControlName="stockQuantity" />
           @if (addFormGroup.get('stockQuantity')?.hasError('required') && addFormGroup.get('stockQuantity')?.touched) {
           <p class="text-red-500 text-sm mt-1">Stock Quantity is required.</p>
           }
@@ -284,7 +289,8 @@
       <div class="grid grid-cols-2 gap-4 mt-3">
         <div>
           <label class="block font-semibold mb-1 text-gray-200">Weight</label>
-          <input type="number" min="0.1" name="weight" step="0.01" class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition"
+          <input type="number" min="0.1" name="weight" step="0.01"
+            class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition"
             placeholder="1.2 kg" formControlName="weight" />
           @if (addFormGroup.get('weight')?.hasError('required') && addFormGroup.get('weight')?.touched) {
           <p class="text-red-500 text-sm mt-1">Weight is required.</p>
@@ -305,8 +311,9 @@
 
       <div class="mt-3">
         <label class="block font-semibold mb-1 text-gray-200">Subcategory</label>
-        <input type="text" name="subCategoryName" class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" placeholder="Mobile Phones"
-          formControlName="subCategoryName" />
+        <input type="text" name="subCategoryName"
+          class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition"
+          placeholder="Mobile Phones" formControlName="subCategoryName" />
         @if (addFormGroup.get('subCategoryName')?.hasError('required') && addFormGroup.get('subCategoryName')?.touched)
         {
         <p class="text-red-500 text-sm mt-1">Subcategory is required.</p>
@@ -319,8 +326,9 @@
 
       <div class="mt-3">
         <label class="block font-semibold mb-1 text-gray-200">Images</label>
-        <input type="file" multiple class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition" (change)="onFileChangeForAdd($event)"
-          formControlName="images" />
+        <input type="file" multiple
+          class="w-full border border-stone-500 bg-stone-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 transition"
+          (change)="onFileChangeForAdd($event)" formControlName="images" />
         @if (addFormGroup.get('images')?.hasError('required') && addFormGroup.get('images')?.touched) {
         <p class="text-red-500 text-sm mt-1">At least one image is required.</p>
         }

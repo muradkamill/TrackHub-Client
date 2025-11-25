@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Globalvar } from '../../services/globalvar';
 
 @Component({
   selector: 'app-courier',
@@ -18,20 +19,22 @@ export class Courier implements OnInit {
   activeCarts: any;
   deliveredCarts: any;
   balance: any;
+  private globalvar = inject(Globalvar);
+
 
   ngOnInit(): void {
-    this.http.get<any>('https://localhost:7115/api/Courier/get-active-carts').subscribe({
+    this.http.get<any>(`${this.globalvar.BaseUrl}/Courier/get-active-carts`).subscribe({
       next: (data) => {
         this.activeCarts = data;
       },
     });
-    this.http.get<any>('https://localhost:7115/api/Person/get-balance').subscribe({
+    this.http.get<any>(`${this.globalvar.BaseUrl}/Person/get-balance`).subscribe({
       next: (data) => {
         this.balance = data.Balance;
       },
       error: (err) => console.log(err),
     });
-    this.http.get<any>('https://localhost:7115/api/Courier/get-pending-carts').subscribe({
+    this.http.get<any>(`${this.globalvar.BaseUrl}/Courier/get-pending-carts`).subscribe({
       next: (data) => {
         this.pendingCarts = data;
         console.log(data);
@@ -41,7 +44,7 @@ export class Courier implements OnInit {
       },
     });
 
-    this.http.get<any>('https://localhost:7115/api/Courier/get-delivered-carts').subscribe({
+    this.http.get<any>(`${this.globalvar.BaseUrl}/Courier/get-delivered-carts`).subscribe({
       next: (data) => {
         this.deliveredCarts = data;
       },
@@ -55,7 +58,7 @@ export class Courier implements OnInit {
     var body = {
       cartId: cartId,
     };
-    this.http.put<any>('https://localhost:7115/api/Courier/delivery-cart', body).subscribe({
+    this.http.put<any>(`${this.globalvar.BaseUrl}/Courier/delivery-cart`, body).subscribe({
       next: () => {
         this.ngOnInit();
       },
@@ -66,7 +69,7 @@ export class Courier implements OnInit {
       cartId: cartId,
       courierFee: courierFee,
     };
-    this.http.put<any>('https://localhost:7115/api/Courier/confirm-pending-cart', body).subscribe({
+    this.http.put<any>(`${this.globalvar.BaseUrl}/Courier/confirm-pending-cart`, body).subscribe({
       next: () => {
         this.ngOnInit();
       },
@@ -81,7 +84,7 @@ export class Courier implements OnInit {
     formData.append('CvUrl', this.cv);
     this.http
       .post<any>(
-        `https://localhost:7115/api/Person/create-courier-application?VehicleType=${this.selectedVehicle}`,
+        `${this.globalvar.BaseUrl}/Person/create-courier-application?VehicleType=${this.selectedVehicle}`,
         formData
       )
       .subscribe({

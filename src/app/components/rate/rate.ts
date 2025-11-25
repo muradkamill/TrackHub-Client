@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Globalvar } from '../../services/globalvar';
 
 @Component({
   selector: 'app-rate',
@@ -13,6 +14,8 @@ export class Rate {
   route = inject(ActivatedRoute);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
+  public globalvar = inject(Globalvar);
+
   product: any;
   productId: any;
   rate: number = 0;
@@ -27,7 +30,7 @@ export class Rate {
       sessionStorage.setItem('accessToken', this.accessToken);
     });
 
-    this.http.get(`https://localhost:7115/api/Product/${this.productId}`).subscribe({
+    this.http.get(`${this.globalvar.BaseUrl}/Product/${this.productId}`).subscribe({
       next: (data: any) => {
         this.product = data;
       },
@@ -52,7 +55,7 @@ export class Rate {
       productComment: comment,
     };
 
-    this.http.post<any>('https://localhost:7115/api/Customer/rate-product', body).subscribe({
+    this.http.post<any>(`${this.globalvar.BaseUrl}/Customer/rate-product`, body).subscribe({
       next: () => {
         this.isRated = true;
         setTimeout(() => this.router.navigate(['']), 400);

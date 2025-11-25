@@ -23,7 +23,7 @@
         <tr class="border-t border-gray-300">
           <td class="p-3">
             @if (pendingCourierApplication.ImageUrl) {
-            <img [src]="'https://localhost:7115'+pendingCourierApplication.ImageUrl" alt="Courier Photo"
+            <img [src]="`${globalvar.BaseUrlForImg}`+pendingCourierApplication.ImageUrl" alt="Courier Photo"
               class="rounded-full w-16 h-16 object-cover">
             }
             @else {
@@ -36,7 +36,7 @@
           <td class="p-3">{{pendingCourierApplication.SurName}}</td>
           <td class="p-3">{{pendingCourierApplication.VehicleType}}</td>
           <td class="p-3">
-            <a [href]="'https://localhost:7115'+pendingCourierApplication.CvUrl" target="_blank"
+            <a [href]="`${globalvar.BaseUrlForImg}`+pendingCourierApplication.CvUrl" target="_blank"
               class="text-blue-600 hover:underline cursor-pointer">View CV</a>
           </td>
           <td class="p-3 flex justify-between">

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as L from 'leaflet';
 import Swal from 'sweetalert2';
+import { Globalvar } from '../../services/globalvar';
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 
@@ -32,6 +33,7 @@ export class ProductDetails {
   number: number = 0;
   route = inject(Router);
   activatedRoute = inject(ActivatedRoute);
+  public globalvar = inject(Globalvar);
   productId: string | null = '';
   product: any;
   quantity: number = 1;
@@ -49,7 +51,7 @@ export class ProductDetails {
     this.activatedRoute.paramMap.subscribe((x) => {
       this.productId = x.get('productId');
     });
-    this.http.get<any>(`https://localhost:7115/api/Product/${this.productId}`).subscribe({
+    this.http.get<any>(`${this.globalvar.BaseUrl}/Product/${this.productId}`).subscribe({
       next: (data) => {
         this.product = data;
         console.log(data);
@@ -60,7 +62,7 @@ export class ProductDetails {
       },
     });
     this.http
-      .get<any>(`https://localhost:7115/api/Product/get-comments/${this.productId}`)
+      .get<any>(`${this.globalvar.BaseUrl}/Product/get-comments/${this.productId}`)
       .subscribe({
         next: (data) => {
           this.commentsDatas = data;
@@ -87,7 +89,7 @@ export class ProductDetails {
       productName: `${productName}`,
       quantity: quantity,
     };
-    this.http.post<any>('https://localhost:7115/api/Cart', body).subscribe({
+    this.http.post<any>(`${this.globalvar.BaseUrl}/Cart`, body).subscribe({
       next: () => {
         Swal.fire({
           title: 'Added to Cart!',
@@ -122,7 +124,7 @@ export class ProductDetails {
       productId: this.productId,
       comment: comment,
     };
-    this.http.post<any>('https://localhost:7115/api/Person/create-comment', body).subscribe({
+    this.http.post<any>(`${this.globalvar.BaseUrl}/Person/create-comment`, body).subscribe({
       next: () => {
         this.isCommentWrited = true;
         this.ngOnInit();
