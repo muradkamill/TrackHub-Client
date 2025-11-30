@@ -39,6 +39,7 @@ export class Header implements OnInit {
   isPasswordWrong: boolean = false;
   isFinWrong: boolean = false;
   signUpFormGroup!: FormGroup;
+  suggestions: any;
 
   ngOnInit(): void {
     this.refreshToken = sessionStorage.getItem('refreshToken');
@@ -59,7 +60,7 @@ export class Header implements OnInit {
           sessionStorage.setItem('refreshToken', data.RefreshToken);
         },
         error: (err) => {
-          if (err.error[0]=='Refresh Token Expired') {
+          if (err.error[0] == 'Refresh Token Expired') {
             this.authService.logout();
           }
         },
@@ -185,6 +186,23 @@ export class Header implements OnInit {
   onSearch(productName: string) {
     if (productName) {
       this.route.navigate([`/search/${productName}`]);
+          this.suggestions=null;
+
     }
+  }
+
+  onAutoComplete(productName: string) {
+    this.http
+      .get<any>(`${this.globalvar.BaseUrl}/Product/get-autocomplete?productName=${productName}`)
+      .subscribe({
+        next: (data) => {
+          this.suggestions = data;
+          console.log(this.suggestions);
+        },
+      });
+  }
+  selectSuggestion(suggestion: string) {
+    this.route.navigate([`/search/${suggestion}`]);
+    this.suggestions=null;
   }
 }

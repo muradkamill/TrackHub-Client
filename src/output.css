@@ -63,8 +63,6 @@
     --radius-lg: 0.5rem;
     --radius-xl: 0.75rem;
     --radius-2xl: 1rem;
-    --radius-3xl: 1.5rem;
-    --radius-4xl: 2rem;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
@@ -231,6 +229,9 @@
   }
   .relative {
     position: relative;
+  }
+  .static {
+    position: static;
   }
   .sticky {
     position: sticky;
@@ -1118,13 +1119,6 @@
       }
     }
   }
-  .hover\:rounded-xl {
-    &:hover {
-      @media (hover: hover) {
-        border-radius: var(--radius-xl);
-      }
-    }
-  }
   .hover\:border-amber-600 {
     &:hover {
       @media (hover: hover) {
@@ -1209,13 +1203,6 @@
     &:hover {
       @media (hover: hover) {
         padding: calc(var(--spacing) * 1);
-      }
-    }
-  }
-  .hover\:p-2 {
-    &:hover {
-      @media (hover: hover) {
-        padding: calc(var(--spacing) * 2);
       }
     }
   }

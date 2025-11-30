@@ -127,7 +127,7 @@
         <p class="text-red-500 text-sm mt-1">Name is required.</p>
         }
         @if (editFormGroup.get('name')?.hasError('maxlength') && editFormGroup.get('name')?.touched) {
-        <p class="text-red-500 text-sm mt-1">Name must be less than 30 characters.</p>
+        <p class="text-red-500 text-sm mt-1">Name must be less than 50 characters.</p>
         }
       </div>
 
@@ -138,7 +138,7 @@
         <p class="text-red-500 text-sm mt-1">Description is required.</p>
         }
         @if (editFormGroup.get('description')?.hasError('maxlength') && editFormGroup.get('description')?.touched) {
-        <p class="text-red-500 text-sm mt-1">Description must be less than 200 characters.</p>
+        <p class="text-red-500 text-sm mt-1">Description must be less than 400 characters.</p>
         }
       </div>
 
@@ -242,7 +242,7 @@
         <p class="text-red-500 text-sm mt-1">Name is required.</p>
         }
         @if (addFormGroup.get('name')?.hasError('maxlength') && addFormGroup.get('name')?.touched) {
-        <p class="text-red-500 text-sm mt-1">Name must be less than 30 characters.</p>
+        <p class="text-red-500 text-sm mt-1">Name must be less than 50 characters.</p>
         }
       </div>
 
@@ -255,7 +255,7 @@
         <p class="text-red-500 text-sm mt-1">Description is required.</p>
         }
         @if (addFormGroup.get('description')?.hasError('maxlength') && addFormGroup.get('description')?.touched) {
-        <p class="text-red-500 text-sm mt-1">Description must be less than 200 characters.</p>
+        <p class="text-red-500 text-sm mt-1">Description must be less than 400 characters.</p>
         }
       </div>
 

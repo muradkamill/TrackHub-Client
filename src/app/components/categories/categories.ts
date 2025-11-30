@@ -77,12 +77,8 @@ export class Categories implements OnInit {
       });
   }
   getProductsBySubcategory(subCategoryId: number, categoryId: number) {
-    this.http
-      .get<any>(
-        `${this.globalvar.BaseUrl}/SubCategory/${subCategoryId}/get-product-by-subcategory`
-      )
-
-      .subscribe({
+    this.http.get<any>(`${this.globalvar.BaseUrl}/SubCategory/${subCategoryId}/get-product-by-subcategory`)
+        .subscribe({
         next: () => {
           this.route.navigate([`/category-page/${categoryId}/${subCategoryId}`]);
           this.closeModal();

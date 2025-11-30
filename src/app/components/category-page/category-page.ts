@@ -17,8 +17,8 @@ export class CategoryPage implements OnInit {
   public globalvar = inject(Globalvar);
   categoryId!: string | null;
   subCategoryId!: string | null;
-  categoryName: string = '';
-  subCategoryName: string = '';
+  categoryName: any;
+  subCategoryName: any;
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
@@ -27,9 +27,9 @@ export class CategoryPage implements OnInit {
 
       if (this.subCategoryId) {
         this.http
-          .get(
-            `${this.globalvar.BaseUrl}/SubCategory/${this.subCategoryId}/get-subcategory-name`, { responseType: 'text' }
-          )
+          .get(`${this.globalvar.BaseUrl}/SubCategory/${this.subCategoryId}/get-subcategory-name`, {
+            responseType: 'text',
+          })
           .subscribe({
             next: (data) => {
               this.subCategoryName = data;
@@ -47,10 +47,11 @@ export class CategoryPage implements OnInit {
           });
       } else {
         this.http
-          .get(`${this.globalvar.BaseUrl}/Category/${this.categoryId}/get-category-name`, { responseType: 'text' })
+          .get(`${this.globalvar.BaseUrl}/Category/${this.categoryId}/get-category-name`, {
+            responseType: 'text',
+          })
           .subscribe({
             next: (data) => {
-              console.log(data)
               this.categoryName = data;
             },
           });
@@ -67,10 +68,10 @@ export class CategoryPage implements OnInit {
       }
     });
   }
-  onClick(productId:number) {
-    this.route.navigate([`product-detail/${productId}`])
+  onClick(productId: number) {
+    this.route.navigate([`product-detail/${productId}`]);
   }
-  goShopping(){
-    this.route.navigate([""])
+  goShopping() {
+    this.route.navigate(['']);
   }
 }

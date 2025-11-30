@@ -90,8 +90,8 @@ export class UserProfile implements OnInit {
   openAddModal() {
     this.isOpenAdd = true;
     this.addFormGroup = this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(30)]],
-      description: ['', [Validators.required, Validators.maxLength(200)]],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      description: ['', [Validators.required, Validators.maxLength(400)]],
       price: ['', [Validators.required, Validators.min(0.01)]],
       stockQuantity: ['', [Validators.required, Validators.max(50), Validators.min(1)]],
       weight: ['', [Validators.required, Validators.min(0.1)]],
@@ -170,8 +170,8 @@ export class UserProfile implements OnInit {
     this.isOpenEdit = true;
     this.productName = product.Name;
     this.editFormGroup = this.fb.group({
-      name: [product.Name, [Validators.required, Validators.maxLength(30)]],
-      description: [product.Description, [Validators.required, Validators.maxLength(200)]],
+      name: [product.Name, [Validators.required, Validators.maxLength(50)]],
+      description: [product.Description, [Validators.required, Validators.maxLength(400)]],
       price: [product.Price, [Validators.required, Validators.min(1)]],
       stockQuantity: [
         product.StockQuantity,
