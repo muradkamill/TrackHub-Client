@@ -25,7 +25,7 @@ const defaultIcon = L.icon({
   selector: 'app-user-profile',
   imports: [ReactiveFormsModule],
   templateUrl: './user-profile.html',
-  styleUrl: './user-profile.css',
+  styles: '',
 })
 export class UserProfile implements OnInit {
   http = inject(HttpClient);

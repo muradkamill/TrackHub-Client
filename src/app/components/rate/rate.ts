@@ -7,7 +7,7 @@ import { Globalvar } from '../../services/globalvar';
   selector: 'app-rate',
   imports: [],
   templateUrl: './rate.html',
-  styleUrl: './rate.css',
+  styles: '',
 })
 export class Rate {
   http = inject(HttpClient);

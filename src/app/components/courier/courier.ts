@@ -8,7 +8,7 @@ import { Globalvar } from '../../services/globalvar';
   selector: 'app-courier',
   imports: [FormsModule, CommonModule],
   templateUrl: './courier.html',
-  styleUrl: './courier.css',
+  styles: '',
 })
 export class Courier implements OnInit {
   selectedVehicle: any;

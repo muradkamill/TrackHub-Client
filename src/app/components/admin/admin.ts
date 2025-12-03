@@ -6,7 +6,7 @@ import { Component, inject, OnInit } from '@angular/core';
   selector: 'app-admin',
   imports: [],
   templateUrl: './admin.html',
-  styleUrl: './admin.css',
+  styles: '',
 })
 export class Admin implements OnInit{
   private http = inject(HttpClient);

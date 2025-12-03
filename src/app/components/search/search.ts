@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, inject, OnInit } from '@angular/core';
 import { Globalvar } from '../../services/globalvar';
+import { ProductCard } from "../../shared/product-card/product-card";
 
 @Component({
   selector: 'app-search',
-  imports: [],
+  imports: [ProductCard],
   templateUrl: './search.html',
-  styleUrl: './search.css',
+  styles: '',
 })
 export class Search implements OnInit {
   private activatedRoute = inject(ActivatedRoute);

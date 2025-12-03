@@ -2,14 +2,15 @@ import { Router } from '@angular/router';
 import { Component, inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Globalvar } from '../../services/globalvar';
+import { ProductCard } from "../../shared/product-card/product-card";
 
 @Component({
-  selector: 'app-product-card',
-  imports: [],
-  templateUrl: './product-card.html',
+  selector: 'home-card',
+  imports: [ProductCard],
+  templateUrl: './home.html',
   styles: ``,
 })
-export class ProductCard implements OnInit {
+export class Home implements OnInit {
   private route = inject(Router);
   private http = inject(HttpClient);
   public globalvar = inject(Globalvar);

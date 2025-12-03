@@ -2,12 +2,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { Globalvar } from '../../services/globalvar';
+import { ProductCard } from "../../shared/product-card/product-card";
 
 @Component({
   selector: 'app-category-page',
-  imports: [],
+  imports: [ProductCard],
   templateUrl: './category-page.html',
-  styleUrl: './category-page.css',
+  styles: '',
 })
 export class CategoryPage implements OnInit {
   http = inject(HttpClient);

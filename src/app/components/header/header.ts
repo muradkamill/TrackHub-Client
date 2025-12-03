@@ -15,7 +15,7 @@ import { Globalvar } from '../../services/globalvar';
   selector: 'app-header',
   imports: [ɵInternalFormsSharedModule, ReactiveFormsModule],
   templateUrl: './header.html',
-  styleUrl: './header.css',
+  styles: '',
 })
 export class Header implements OnInit {
   isAuth: boolean = false;

@@ -7,7 +7,7 @@ import { Globalvar } from '../../services/globalvar';
   selector: 'app-categories',
   imports: [],
   templateUrl: './categories.html',
-  styleUrl: './categories.css',
+  styles: '',
 })
 export class Categories implements OnInit {
   categories: any;

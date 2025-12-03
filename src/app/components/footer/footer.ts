@@ -7,7 +7,7 @@ import { Globalvar } from '../../services/globalvar';
   selector: 'app-footer',
   imports: [],
   templateUrl: './footer.html',
-  styleUrl: './footer.css',
+  styles: '',
 })
 export class Footer {
   constructor(authService: AuthService) {

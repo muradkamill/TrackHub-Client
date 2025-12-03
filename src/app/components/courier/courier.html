@@ -1,4 +1,4 @@
-<div class="p-8 space-y-10 bg-gradient-to-br from-stone-800 to-stone-700 min-h-screen">
+<div class="p-8 space-y-10 bg-linear-to-br from-stone-800 to-stone-700 min-h-screen">
   <h2 class="text-3xl font-bold text-center mb-10 text-white">
     Courier Dashboard
   </h2>
@@ -19,7 +19,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (activeCart of activeCarts; track $index) {
       <div
-        class="bg-gradient-to-br rounded-xl p-5 shadow-md hover:shadow-xl transition-shadow duration-300 border border-stone-500 hover:scale-[1.03] transform">
+        class="bg-linear-to-br rounded-xl p-5 shadow-md hover:shadow-xl transition-shadow duration-300 border border-stone-500 hover:scale-[1.03] transform">
         <p class="text-white"><strong>Customer :</strong> {{activeCart.PersonName}} {{activeCart.PersonSurName}}</p>
         <p class="mb-3 text-white"><strong>Product Name :</strong> {{activeCart.ProductName}}</p>
         <p class="mb-3 text-white"><strong>Courier Fee :</strong> {{activeCart.CourierFee}}</p>
@@ -50,7 +50,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (pendingCart of pendingCarts; track $index) {
       <div
-        class="bg-gradient-to-br rounded-xl p-5 shadow-md hover:shadow-xl transition-shadow duration-300 border border-stone-500 hover:scale-[1.03] transform">
+        class="bg-linear-to-br rounded-xl p-5 shadow-md hover:shadow-xl transition-shadow duration-300 border border-stone-500 hover:scale-[1.03] transform">
         <p class="text-white"><strong>Customer :</strong> {{pendingCart.PersonName}} {{pendingCart.PersonSurname}}</p>
         <p class="mb-3 text-white"><strong>Product Name :</strong> {{pendingCart.ProductName}}</p>
         <p class="mb-3 text-white"><strong>Courier Fee :</strong> {{pendingCart.CourierFee}}</p>
@@ -80,7 +80,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (deliveredCart of deliveredCarts; track $index) {
       <div
-        class="bg-gradient-to-br from-stone-700 to-stone-600 rounded-xl p-5 shadow-md hover:shadow-xl transition-shadow duration-300 border border-stone-500 hover:scale-[1.02] transform opacity-80">
+        class="bg-linear-to-br from-stone-700 to-stone-600 rounded-xl p-5 shadow-md hover:shadow-xl transition-shadow duration-300 border border-stone-500 hover:scale-[1.02] transform opacity-80">
         <p class="text-white"><strong>Customer :</strong> {{deliveredCart.PersonName}} {{deliveredCart.PersonSurname}}</p>
         <p class="mb-3 text-white"><strong>Product Name :</strong> {{deliveredCart.ProductName}}</p>
         <p class="mb-3 text-white"><strong>Courier Fee :</strong> {{deliveredCart.CourierFee}}</p>

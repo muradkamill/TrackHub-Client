@@ -27,7 +27,7 @@ const defaultIcon = L.icon({
   selector: 'app-cart',
   imports: [FormsModule, RouterLink],
   templateUrl: './cart.html',
-  styleUrl: './cart.css',
+  styles: '',
 })
 export class Cart {
   private map!: L.Map;

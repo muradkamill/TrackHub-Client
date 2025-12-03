@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { ProductCard } from './components/product-card/product-card';
 import { Cart } from './components/cart/cart';
 import { ProductDetails } from './components/product-details/product-details';
 import { CategoryPage } from './components/category-page/category-page';
@@ -9,11 +8,12 @@ import { Rate } from './components/rate/rate';
 import { Search } from './components/search/search';
 import { Error } from './components/error/error';
 import { Admin } from './components/admin/admin';
+import { Home } from './components/home/home';
 
 export const routes: Routes = [
   {
     path: '',
-    component: ProductCard,
+    component: Home,
   },
   {
     path: 'product-detail',
@@ -63,7 +63,7 @@ export const routes: Routes = [
     path: 'user-profile',
     component: UserProfile,
   },
-    {
+  {
     path: 'admin',
     component: Admin,
   },
