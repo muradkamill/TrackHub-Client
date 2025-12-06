@@ -155,7 +155,7 @@ export class ProductDetails {
 
       L.marker([this.latitude, this.longitude])
         .addTo(this.map)
-        .bindPopup(`${this.product.OwnerName} ${this.product.OwnerSurname}'s Location`)
+        .bindPopup(`${this.product?.Name}'s Location`)
         .openPopup();
 
       this.map.scrollWheelZoom.disable();

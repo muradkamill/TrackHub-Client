@@ -22,7 +22,7 @@
     <div class="flex-1 text-center md:text-left space-y-2">
       <h3 class="text-xl font-semibold text-white">{{person?.Name}} {{person?.SurName}}</h3>
       <p class="text-gray-100">{{person?.Mail}}</p>
-      <p class="text-2xl font-bold text-white">{{balance}}</p>
+      <p class="text-2xl font-bold text-white">{{balance}} AZN</p>
     </div>
     <div>
 
@@ -75,7 +75,8 @@
         class="bg-linear-to-br from-stone-800 to-stone-700 border rounded-xl p-5 shadow-md hover:shadow-xl transition-shadow duration-300 hover:scale-[1.03] transform">
         <img [src]="`${globalvar.BaseUrlForImg}`+product.ImageUrls[0]" alt="Example Product 1"
           class="w-full h-64 rounded-md mb-4" />
-        <h4 class="text-lg font-semibold mb-2 text-white">{{product.Name}}</h4>
+        <h4 class="text-lg font-semibold mb-2 text-white cursor-pointer" (click)="onClickProductDetail(product.Id)">
+          {{product.Name}}</h4>
         <p class="mb-1 text-gray-300"><strong>SubCategory: </strong> {{product.SubCategoryName}}</p>
         <p class="mb-1 text-gray-300"><strong>Price: </strong> {{product.Price}}</p>
         <p class="mb-1 text-gray-300"><strong>Stock Quantity: </strong>{{product.StockQuantity}}</p>
@@ -114,15 +115,21 @@
 
 
 @if (isOpenEdit) {
-<div class="flex flex-col items-center p-6 min-h-screen fixed inset-0 justify-center z-50 bg-black bg-opacity-50"
+<div class="flex flex-col items-center p-6 min-h-screen fixed inset-0 justify-center z-100 bg-black bg-opacity-50"
   (click)="closeEditModal()">
-  <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6 space-y-6 relative" (click)="$event.stopPropagation()">
+  <div class="w-full max-w-2xl bg-stone-500 rounded-lg shadow-lg p-6 space-y-6 relative"
+    (click)="$event.stopPropagation()">
+    <button type="button" (click)="closeEditModal()"
+      class="absolute top-3 right-3 text-gray-300 hover:text-white text-2xl">
+      &times;
+    </button>
     <h3 class="text-xl font-semibold mb-4 text-center text-amber-600">Change Product</h3>
 
     <form [formGroup]="editFormGroup" (ngSubmit)="onSubmitEditProduct()">
       <div>
-        <label class="block font-semibold mb-1">Name</label>
-        <input type="text" formControlName="name" class="w-full border rounded-lg p-2" />
+        <label class="block font-semibold mb-1 text-white">Name</label>
+        <input type="text" formControlName="name" class="w-full border border-stone-500 bg-stone-700  rounded-lg p-2
+       focus:outline-none focus:ring-2 focus:ring-amber-600 transition" />
         @if (editFormGroup.get('name')?.hasError('required') && editFormGroup.get('name')?.touched) {
         <p class="text-red-500 text-sm mt-1">Name is required.</p>
         }
@@ -132,8 +139,9 @@
       </div>
 
       <div class="mt-3">
-        <label class="block font-semibold mb-1">Description</label>
-        <textarea formControlName="description" class="w-full border rounded-lg p-2"></textarea>
+        <label class="block font-semibold mb-1 text-white">Description</label>
+        <textarea formControlName="description" class="w-full border border-stone-500 bg-stone-700  rounded-lg p-2
+       focus:outline-none focus:ring-2 focus:ring-amber-600 transition"></textarea>
         @if (editFormGroup.get('description')?.hasError('required') && editFormGroup.get('description')?.touched) {
         <p class="text-red-500 text-sm mt-1">Description is required.</p>
         }
@@ -144,8 +152,9 @@
 
       <div class="grid grid-cols-2 gap-4 mt-3">
         <div>
-          <label class="block font-semibold mb-1">Price</label>
-          <input type="number" min="0.1" step="0.1" formControlName="price" class="w-full border rounded-lg p-2" />
+          <label class="block font-semibold mb-1 text-white">Price</label>
+          <input type="number" min="0.1" step="0.1" formControlName="price" class="w-full border border-stone-500 bg-stone-700  rounded-lg p-2
+       focus:outline-none focus:ring-2 focus:ring-amber-600 transition" />
           @if (editFormGroup.get('price')?.hasError('required') && editFormGroup.get('price')?.touched) {
           <p class="text-red-500 text-sm mt-1">Price is required.</p>
           }
@@ -154,8 +163,9 @@
           }
         </div>
         <div>
-          <label class="block font-semibold mb-1">Stock Quantity</label>
-          <input type="number" min="1" formControlName="stockQuantity" class="w-full border rounded-lg p-2" />
+          <label class="block font-semibold mb-1 text-white">Stock Quantity</label>
+          <input type="number" min="1" formControlName="stockQuantity" class="w-full border border-stone-500 bg-stone-700  rounded-lg p-2
+       focus:outline-none focus:ring-2 focus:ring-amber-600 transition" />
           @if (editFormGroup.get('stockQuantity')?.hasError('required') && editFormGroup.get('stockQuantity')?.touched)
           {
           <p class="text-red-500 text-sm mt-1">Stock Quantity is required.</p>
@@ -171,8 +181,9 @@
 
       <div class="grid grid-cols-2 gap-4 mt-3">
         <div>
-          <label class="block font-semibold mb-1">Weight</label>
-          <input type="number" min="0.1" step="0.01" formControlName="weight" class="w-full border rounded-lg p-2" />
+          <label class="block font-semibold mb-1 text-white">Weight</label>
+          <input type="number" min="0.1" step="0.01" formControlName="weight" class="w-full border border-stone-500 bg-stone-700  rounded-lg p-2
+       focus:outline-none focus:ring-2 focus:ring-amber-600 transition" />
           @if (editFormGroup.get('weight')?.hasError('required') && editFormGroup.get('weight')?.touched) {
           <p class="text-red-500 text-sm mt-1">Weight is required.</p>
           }
@@ -182,7 +193,9 @@
         </div>
         <div class="flex items-center gap-2 mt-5">
           <input type="checkbox" id="isNew" formControlName="isNew" />
-          <label for="isNew" class="font-semibold">Is New?</label>
+          <label for="isNew" class="font-semibold text-white">Is New?</label>
+
+
           @if (editFormGroup.get('isNew')?.hasError('required') && editFormGroup.get('isNew')?.touched) {
           <p class="text-red-500 text-sm mt-1">This field is required.</p>
           }
@@ -190,8 +203,9 @@
       </div>
 
       <div class="mt-3">
-        <label class="block font-semibold mb-1">Subcategory</label>
-        <input type="text" formControlName="subCategoryName" class="w-full border rounded-lg p-2" />
+        <label class="block font-semibold mb-1 text-white">Subcategory</label>
+        <input type="text" formControlName="subCategoryName" class="w-full border border-stone-500 bg-stone-700  rounded-lg p-2
+       focus:outline-none focus:ring-2 focus:ring-amber-600 transition" />
         @if (editFormGroup.get('subCategoryName')?.hasError('required') &&
         editFormGroup.get('subCategoryName')?.touched) {
         <p class="text-red-500 text-sm mt-1">Subcategory is required.</p>
@@ -203,9 +217,9 @@
       </div>
 
       <div class="mt-3">
-        <label class="block font-semibold mb-1">Images</label>
-        <input type="file" multiple (change)="onFileChange($event)" class="w-full border rounded-lg p-2"
-          formControlName="images" />
+        <label class="block font-semibold mb-1 text-white">Images</label>
+        <input type="file" multiple (change)="onFileChange($event)" class="w-full border border-stone-500 bg-stone-700  rounded-lg p-2
+       focus:outline-none focus:ring-2 focus:ring-amber-600 transition" formControlName="images" />
         @if (editFormGroup.get('images')?.hasError('required') && editFormGroup.get('images')?.touched) {
         <p class="text-red-500 text-sm mt-1">At least one image is required.</p>
         }
@@ -213,10 +227,10 @@
 
       <div class="flex justify-between mt-6">
         <button type="button" (click)="closeEditModal()"
-          class="bg-gray-300 hover:bg-gray-400 text-stone-900 py-2 px-4 rounded-lg">
+          class="bg-stone-600 hover:bg-stone-500 text-white py-2 px-4 rounded-lg">
           Cancel
         </button>
-        <button type="submit" class="bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg">
+        <button type="submit" class="bg-amber-600 hover:bg-amber-700  py-2 px-4 rounded-lg">
           Change Product
         </button>
       </div>
@@ -227,12 +241,16 @@
 
 @if (isOpenAdd) {
 <form [formGroup]="addFormGroup" (ngSubmit)="onSubmitAddProduct()">
-  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-200 overflow-y-auto"
+  <div class="fixed  inset-0 bg-black bg-opacity-50 flex items-center justify-center z-100 overflow-y-auto"
     (click)="closeAddModal()">
-    <div class="max-w-xl w-full mx-auto border rounded-lg p-6 bg-stone-500 shadow-lg max-h-[90vh] overflow-y-auto"
+    <div
+      class="relative max-w-xl w-full mx-auto border rounded-lg p-6 bg-stone-500 shadow-lg max-h-[90vh] overflow-y-auto"
       (click)="$event.stopPropagation()">
+      <button type="button" (click)="closeAddModal()"
+        class="absolute top-3 right-3 text-gray-300 hover:text-white text-2xl">
+        &times;
+      </button>
       <h3 class="text-xl font-semibold mb-4 text-center text-white">Add Product</h3>
-
       <div>
         <label class="block font-semibold mb-1 text-gray-200">Name</label>
         <input type="text"
@@ -355,10 +373,14 @@
 
 
 @if (isChangePassword) {
-<div class="flex flex-col items-center p-6 min-h-screen fixed inset-0 justify-center z-50 bg-black bg-opacity-50"
+<div class="flex flex-col items-center p-6 min-h-screen fixed inset-0 justify-center z-100 bg-black bg-opacity-50"
   (click)="closeChangePassword()">
-  <div class="w-full max-w-md bg-stone-500 rounded-2xl shadow-2xl p-8 space-y-6 relative"
+  <div class="relative w-full max-w-md bg-stone-500 rounded-2xl shadow-2xl p-8 space-y-6 "
     (click)="$event.stopPropagation()">
+    <button type="button" (click)="closeChangePassword()"
+      class="absolute top-3 right-3 text-gray-300 hover:text-white text-2xl">
+      &times;
+    </button>
     <h3 class="text-2xl font-bold text-center mb-2  text-white">Change Password</h3>
     <p class="text-gray-300 text-center mb-6">
       Please enter your current password and choose a new password. Make sure your new password is strong and secure.
@@ -411,10 +433,14 @@
 }
 
 @if (isCourierApplication) {
-<div class="flex flex-col items-center p-6 min-h-screen fixed inset-0 justify-center z-50 bg-black bg-opacity-50"
+<div class="flex flex-col items-center p-6 min-h-screen fixed inset-0 justify-center z-100 bg-black bg-opacity-50"
   (click)="closeCourierApplication()">
   <div class="w-full max-w-md bg-stone-500 rounded-2xl shadow-2xl p-8 space-y-6 relative"
     (click)="$event.stopPropagation()">
+    <button type="button" (click)="closeCourierApplication()"
+      class="absolute top-3 right-3 text-gray-300 hover:text-white text-2xl">
+      &times;
+    </button>
     <h3 class="text-2xl font-bold text-center mb-2 text-white ">Courier Application</h3>
     <p class="text-gray-300 text-center mb-6">
       Please upload your CV and select your vehicle type.

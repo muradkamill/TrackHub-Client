@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import * as L from 'leaflet';
 import Swal from 'sweetalert2';
 import { Globalvar } from '../../services/globalvar';
+import { Router } from '@angular/router';
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 
@@ -30,6 +31,7 @@ const defaultIcon = L.icon({
 export class UserProfile implements OnInit {
   http = inject(HttpClient);
   fb = inject(FormBuilder);
+  route = inject(Router);
   public globalvar = inject(Globalvar);
   products: any;
   balance: any;
@@ -49,6 +51,8 @@ export class UserProfile implements OnInit {
   isSubmitted: boolean = false;
   longitude: any;
   latitude: any;
+  maxImages = 10;
+  selectedImages: File[] = [];
 
   private map!: L.Map;
   private marker!: L.Marker;
@@ -57,6 +61,7 @@ export class UserProfile implements OnInit {
     this.http.get<any>(`${this.globalvar.BaseUrl}/Person/get-owner-products`).subscribe({
       next: (data) => {
         this.products = data;
+        console.log(this.products);
       },
     });
     this.http.get<any>(`${this.globalvar.BaseUrl}/Person/get-balance`).subscribe({
@@ -76,6 +81,9 @@ export class UserProfile implements OnInit {
         this.person = data;
       },
     });
+  }
+  onClickProductDetail(productId: number) {
+    this.route.navigate([`/product-detail/${productId}`]);
   }
   closeEditModal() {
     this.isOpenEdit = false;
@@ -184,18 +192,52 @@ export class UserProfile implements OnInit {
     });
   }
   onFileChange(event: any) {
-    if (event.target.files && event.target.files.length) {
-      this.editFormGroup.patchValue({
-        images: event.target.files,
+    const files: FileList = event.target.files;
+
+    if (!files || files.length === 0) return;
+
+    if (files.length > this.maxImages) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Limit exceeded',
+        text: `You can upload a maximum of ${this.maxImages} photos.`,
+        background: '#1e293b',
+        color: '#f59e0b',
+        confirmButtonColor: '#f59e0b',
       });
+
+      event.target.value = null;
+      return;
     }
+
+    this.editFormGroup.patchValue({
+      images: Array.from(files),
+    });
   }
   onFileChangeForAdd(event: any) {
-    if (event.target.files && event.target.files.length) {
-      this.addFormGroup.patchValue({
-        images: event.target.files,
+    const files: FileList = event.target.files;
+
+    if (!files || files.length === 0) return;
+
+    if (files.length > this.maxImages) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Limit exceeded',
+        text: `You can upload a maximum of ${this.maxImages} photos.`,
+        background: '#1e293b',
+        color: '#f59e0b',
+        confirmButtonColor: '#f59e0b',
       });
+
+      event.target.value = null;
+      return;
     }
+
+    this.selectedImages = Array.from(files);
+
+    this.addFormGroup.patchValue({
+      images: this.selectedImages,
+    });
   }
   onSubmitAddProduct() {
     if (this.latitude === undefined || this.longitude === undefined) {
@@ -301,7 +343,7 @@ export class UserProfile implements OnInit {
         }
       },
     });
-  }
+  } 
 
   onCourierApplication() {
     this.isCourierApplication = true;

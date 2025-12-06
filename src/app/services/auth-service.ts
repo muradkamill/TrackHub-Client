@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
 import { Globalvar } from './globalvar';
 
 @Injectable({
