@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgStyle, NgClass } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +25,7 @@ const defaultIcon = L.icon({
 
 @Component({
   selector: 'app-product-details',
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe, NgClass],
   templateUrl: './product-details.html',
   styles: ``,
 })
@@ -42,6 +42,7 @@ export class ProductDetails {
   longitude: any;
   latitude: any;
   isMapClosed: boolean = true;
+  selectedImageIndex = 0;
 
   map: any;
   mapInitialized = false;
@@ -167,5 +168,17 @@ export class ProductDetails {
   }
   closeMap() {
     this.isMapClosed = true;
+  }
+  selectImage(index: number) {
+    this.selectedImageIndex = index;
+  }
+  onCarouselSlide(event: any) {
+    const nextIndex =
+      event.to !== undefined
+        ? event.to
+        : this.selectedImageIndex + (event.direction === 'left' ? -1 : 1);
+
+    this.selectedImageIndex =
+      (nextIndex + (this.product?.ImageUrls?.length || 1)) % (this.product?.ImageUrls?.length || 1);
   }
 }
