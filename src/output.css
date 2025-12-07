@@ -1168,6 +1168,13 @@
       }
     }
   }
+  .hover\:bg-stone-700 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-stone-700);
+      }
+    }
+  }
   .hover\:p-1 {
     &:hover {
       @media (hover: hover) {
