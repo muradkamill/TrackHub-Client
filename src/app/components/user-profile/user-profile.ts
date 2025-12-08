@@ -90,6 +90,8 @@ export class UserProfile implements OnInit {
     this.productName = '';
   }
   closeAddModal() {
+    this.latitude=0;
+    this.longitude=0;
     this.isOpenAdd = false;
   }
   openEditModal() {
@@ -343,7 +345,7 @@ export class UserProfile implements OnInit {
         }
       },
     });
-  } 
+  }
 
   onCourierApplication() {
     this.isCourierApplication = true;
