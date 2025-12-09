@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class Globalvar {
-  BaseUrl: string = 'https://localhost:7115/api';
-  BaseUrlForImg: string = 'https://localhost:7115';
+  BaseUrl: string = 'http://trackhub.runasp.net/api';
+  BaseUrlForImg: string = 'http://trackhub.runasp.net';
 
 }
